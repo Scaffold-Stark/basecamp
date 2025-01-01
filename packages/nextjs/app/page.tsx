@@ -14,7 +14,7 @@ import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWri
 import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
 
 const Home = () => {
-  const [selectedToken, setSelectedToken] = useState<"ETH">("ETH");
+  const [selectedToken, setSelectedToken] = useState<"ETH" | "STRK">("ETH");
   const [inputAmount, setInputAmount] = useState<bigint>(0n);
   const [greeting, setGreeting] = useState<string>("");
   const [displayAmount, setDisplayAmount] = useState<string>("0");
@@ -23,6 +23,7 @@ const Home = () => {
 
   const { data: YourContract } = useDeployedContractInfo("YourContract");
   const { data: EthContract } = useDeployedContractInfo("Eth");
+  const { data: StrkContract } = useDeployedContractInfo("Strk");
 
   const { data: currentGreeting } = useScaffoldReadContract({
     contractName: "YourContract",
@@ -40,6 +41,12 @@ const Home = () => {
     args: [EthContract?.address],
   });
 
+  const { data: strkBalance } = useScaffoldReadContract({
+    contractName: "YourContract",
+    functionName: "token_deposits",
+    args: [StrkContract?.address],
+  });
+
   const { data: lastBlock } = useBlockNumber({
     blockIdentifier: "pending" as BlockTag,
   });
@@ -54,7 +61,7 @@ const Home = () => {
   const { sendAsync: setGreetingNoPayment } = useScaffoldWriteContract({
     contractName: "YourContract",
     functionName: "set_greeting",
-    args: [greeting, 0n],
+    args: [greeting, 0n, EthContract?.address],
   });
 
   const { sendAsync: withdrawAll } = useScaffoldWriteContract({
@@ -65,14 +72,20 @@ const Home = () => {
   const { sendAsync: setGreetingWithPayment } = useScaffoldMultiWriteContract({
     calls: [
       {
-        contractName: "Eth",
+        contractName: selectedToken === "ETH" ? "Eth" : "Strk",
         functionName: "approve",
         args: [YourContract?.address, BigInt(inputAmount)],
       },
       {
         contractName: "YourContract",
         functionName: "set_greeting",
-        args: [greeting, BigInt(inputAmount)],
+        args: [
+          greeting,
+          BigInt(inputAmount),
+          selectedToken === "ETH"
+            ? EthContract?.address
+            : StrkContract?.address,
+        ],
       },
     ],
   });
@@ -157,7 +170,7 @@ const Home = () => {
                     ETH
                   </span>
                 </div>
-                {/* <div className="p-4 bg-base-300 rounded-lg">
+                <div className="p-4 bg-base-300 rounded-lg">
                   <span className="block text-sm opacity-70">
                     Available STRK
                   </span>
@@ -167,7 +180,7 @@ const Home = () => {
                       : "0.000000"}{" "}
                     STRK
                   </span>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
@@ -177,7 +190,7 @@ const Home = () => {
               Set Greeting & Deposit
             </h2>
             <div className="space-y-6">
-              {/* <div className="space-y-2">
+              <div className="space-y-2">
                 <label className="text-lg font-medium">Select Token</label>
                 <div className="flex gap-4">
                   <button
@@ -193,7 +206,7 @@ const Home = () => {
                     STRK
                   </button>
                 </div>
-              </div> */}
+              </div>
 
               <div className="form-control">
                 <label className="label">
@@ -240,7 +253,7 @@ const Home = () => {
             </div>
           </div>
 
-          {/* <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg">
+          <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg">
             <h2 className="text-2xl font-bold mb-6 text-secondary">
               Transaction History
             </h2>
@@ -261,7 +274,7 @@ const Home = () => {
                 </div>
               ))}
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
