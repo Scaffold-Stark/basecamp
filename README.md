@@ -43,7 +43,24 @@ Each step builds upon the previous one, introducing new concepts and features wh
 
 ## Getting Started
 
-1. **Clone and Setup**
+1. **Environment Setup**
+   ```bash
+   # Copy the example env file in packages/snfoundry
+   cp packages/snfoundry/.env.example packages/snfoundry/.env
+   ```
+   Example of `packages/snfoundry/.env` for Sepolia:
+   ```bash
+   PRIVATE_KEY_SEPOLIA=0xSOMETHING
+   RPC_URL_SEPOLIA=https://starknet-sepolia.public.blastapi.io/rpc/v0_7
+   ACCOUNT_ADDRESS_SEPOLIA=0xSOMETHING
+   ```
+   > ⚠️ **NEVER commit your `.env` file or expose your private key!**
+   > 
+   > 💡 The `.env` file belongs in the `packages/snfoundry/` directory where your smart contracts live
+   >
+   > 🔥 Try to use mainnet to teach, use the same format but replace `SEPOLIA` with `MAINNET` in the variable names
+
+2. **Clone and Setup**
    ```bash
    git clone https://github.com/Scaffold-Stark/basecamp.git
    cd basecamp
@@ -51,12 +68,13 @@ Each step builds upon the previous one, introducing new concepts and features wh
    yarn install
    ```
 
-2. **Start Development**
+3. **Start Development**
    ```bash
    yarn start
+   yarn deploy --network sepolia
    ```
 
-3. **Follow Along**
+4. **Development Guide**
    - Begin with `step-0` branch which provides the basic layout
    - Open `packages/nextjs/app/page.tsx` in your editor
    - Compare with [step-0 to step-1 changes](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1) to see what needs to be implemented
