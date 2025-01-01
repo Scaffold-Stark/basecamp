@@ -80,13 +80,9 @@ const Home = () => {
   const handleSetGreeting = async () => {
     const amount = BigInt(inputAmount);
     if (amount > 0n) {
-<<<<<<< HEAD
       await setGreetingWithPayment();
     } else {
       await setGreetingNoPayment();
-=======
-    } else {
->>>>>>> step-0
     }
   };
 
