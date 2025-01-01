@@ -39,17 +39,6 @@ You can review exact changes between steps here:
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
 
-## Tutorial Structure
-
-The tutorial is organized into branches:
-
-- `base`: Starting point with foundational setup
-- `step-1`: Basic ETH integration
-- `step-2`: Multi-token support
-- `step-3`: Full zklend integration
-
-To follow the tutorial, start with the base branch and progress through each step:
-
 ## Updating the Framework
 
 This tutorial is built on top of Scaffold-Stark. To update the base branch from [Scaffold-Stark main](https://github.com/Scaffold-Stark/scaffold-stark-2):
