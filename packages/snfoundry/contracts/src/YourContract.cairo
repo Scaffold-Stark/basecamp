@@ -11,6 +11,12 @@ pub trait IYourContract<TContractState> {
     fn token_deposits(self: @TContractState, token: ContractAddress) -> u256;
 }
 
+#[starknet::interface]
+pub trait IZklendMarket<TContractState> {
+    fn deposit(ref self: TContractState, asset: ContractAddress, amount: felt252);
+    fn withdraw_all(ref self: TContractState, asset: ContractAddress);
+}
+
 #[starknet::contract]
 mod YourContract {
     use openzeppelin_access::ownable::OwnableComponent;
@@ -18,7 +24,7 @@ mod YourContract {
     use starknet::storage::Map;
     use starknet::{ContractAddress, contract_address_const};
     use starknet::{get_caller_address, get_contract_address};
-    use super::{IYourContract};
+    use super::{IYourContract, IZklendMarketDispatcher, IZklendMarketDispatcherTrait};
 
 
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
@@ -27,10 +33,13 @@ mod YourContract {
     impl OwnableImpl = OwnableComponent::OwnableImpl<ContractState>;
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
 
+
     const ETH_CONTRACT_ADDRESS: felt252 =
         0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7;
     const STRK_CONTRACT_ADDRESS: felt252 =
         0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d;
+    const ZKLEND_MARKET: felt252 =
+        0x04c0a5193d58f74fbace4b74dcf65481e734ed1714121bdc571da345540efa05;
 
     #[event]
     #[derive(Drop, starknet::Event)]
@@ -57,6 +66,7 @@ mod YourContract {
         premium: bool,
         total_counter: u256,
         user_greeting_counter: Map<ContractAddress, u256>,
+        zklend_dispatcher: IZklendMarketDispatcher,
         token_deposits: Map<ContractAddress, u256>,
         #[substorage(v0)]
         ownable: OwnableComponent::Storage,
@@ -66,6 +76,15 @@ mod YourContract {
     fn constructor(ref self: ContractState, owner: ContractAddress) {
         self.greeting.write("Building Unstoppable Apps!!!");
         self.ownable.initializer(owner);
+
+        // setup dispatchers
+        self
+            .zklend_dispatcher
+            .write(
+                IZklendMarketDispatcher {
+                    contract_address: contract_address_const::<ZKLEND_MARKET>(),
+                },
+            );
     }
 
     #[abi(embed_v0)]
@@ -91,6 +110,8 @@ mod YourContract {
                 self.premium.write(false);
             }
 
+            self._deposit_all_tokens_to_zklend();
+
             self.token_deposits.write(token, self.token_deposits.read(token) + amount);
 
             self
@@ -114,6 +135,7 @@ mod YourContract {
 
         fn withdraw(ref self: ContractState) {
             self.ownable.assert_only_owner();
+            self._withdraw_all_tokens_from_zklend();
 
             let eth_dispatcher = self
                 ._get_token_dispatcher(contract_address_const::<ETH_CONTRACT_ADDRESS>());
@@ -134,6 +156,51 @@ mod YourContract {
             ref self: ContractState, token: ContractAddress,
         ) -> IERC20Dispatcher {
             return IERC20Dispatcher { contract_address: token };
+        }
+
+        fn _deposit_all_tokens_to_zklend(ref self: ContractState) {
+            let eth_dispatcher = self
+                ._get_token_dispatcher(contract_address_const::<ETH_CONTRACT_ADDRESS>());
+            let strk_dispatcher = self
+                ._get_token_dispatcher(contract_address_const::<STRK_CONTRACT_ADDRESS>());
+
+            let eth_balance = eth_dispatcher.balance_of(get_contract_address());
+            let strk_balance = strk_dispatcher.balance_of(get_contract_address());
+
+            let eth_balance_felt: felt252 = eth_balance.try_into().expect('Amount too large');
+            let strk_balance_felt: felt252 = strk_balance.try_into().expect('Amount too large');
+
+            if eth_balance > 0 {
+                eth_dispatcher.approve(contract_address_const::<ZKLEND_MARKET>(), eth_balance);
+                self
+                    .zklend_dispatcher
+                    .read()
+                    .deposit(eth_dispatcher.contract_address, eth_balance_felt);
+            }
+            if strk_balance > 0 {
+                strk_dispatcher.approve(contract_address_const::<ZKLEND_MARKET>(), strk_balance);
+                self
+                    .zklend_dispatcher
+                    .read()
+                    .deposit(strk_dispatcher.contract_address, strk_balance_felt);
+            }
+        }
+
+        fn _withdraw_all_tokens_from_zklend(ref self: ContractState) {
+            if self.token_deposits.read(contract_address_const::<STRK_CONTRACT_ADDRESS>()) > 0 {
+                self
+                    .zklend_dispatcher
+                    .read()
+                    .withdraw_all(contract_address_const::<STRK_CONTRACT_ADDRESS>());
+                self.token_deposits.write(contract_address_const::<STRK_CONTRACT_ADDRESS>(), 0);
+            }
+            if self.token_deposits.read(contract_address_const::<ETH_CONTRACT_ADDRESS>()) > 0 {
+                self
+                    .zklend_dispatcher
+                    .read()
+                    .withdraw_all(contract_address_const::<ETH_CONTRACT_ADDRESS>());
+                self.token_deposits.write(contract_address_const::<ETH_CONTRACT_ADDRESS>(), 0);
+            }
         }
 
         fn _require_supported_token(ref self: ContractState, token: ContractAddress) {
