@@ -54,7 +54,7 @@ const Home = () => {
   const { data: events } = useScaffoldEventHistory({
     contractName: "YourContract",
     eventName: "contracts::YourContract::YourContract::GreetingChanged",
-    fromBlock: lastBlock ? (lastBlock > 50n ? BigInt(lastBlock - 50) : 0n) : 0n,
+    fromBlock: 1028886n, // NOTE : Use the latest block on the fork + 1 ( see the logs in the console)
     watch: true,
   });
 
