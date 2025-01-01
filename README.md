@@ -55,34 +55,31 @@ To follow the tutorial, start with the base branch and progress through each ste
 This tutorial is built on top of Scaffold-Stark. To update the base branch from [Scaffold-Stark main](https://github.com/Scaffold-Stark/scaffold-stark-2):
 
 ```bash
-
 // on a fresh terminal that doesnt have a `basecamp-temp` directory
 
 git clone git@github.com:Scaffold-Stark/basecamp.git basecamp-temp && cd basecamp-temp && git checkout base && mkdir temp_scaffold && cd temp_scaffold && git clone git@github.com:Scaffold-Stark/scaffold-stark-2.git . && rm -rf .git .github README.md && cp -r * ../ && cd .. && rm -rf temp_scaffold && git add . && git commit -m "Update framework to latest version" && git push origin base
 ```
 
-To update a specific step with the latest base changes:
+To update each step with changes from the previous step:
 
 ```bash
 git checkout step-0 && git merge base --no-edit && git push origin step-0
 ```
 
 ```bash
-git checkout step-1 && git merge base --no-edit && git push origin step-1
+git checkout step-1 && git merge step-0 --no-edit && git push origin step-1
 ```
 
 ```bash
-git checkout step-2 && git merge base --no-edit && git push origin step-2
+git checkout step-2 && git merge step-1 --no-edit && git push origin step-2
 ```
 
 ```bash
-git checkout step-3 && git merge base --no-edit && git push origin step-3
+git checkout step-3 && git merge step-2 --no-edit && git push origin step-3
 ```
 
 This process will:
 1. Clone the tutorial repository
-2. Switch to the base branch
-3. Download the latest Scaffold-Stark framework
-4. Update the necessary files while preserving tutorial-specific content
-5. Stage and commit the changes to base
-6. Push changes to the base branch
+2. Update the base framework
+3. Merge changes progressively from each step to the next
+4. Push the updated branches
