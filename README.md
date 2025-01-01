@@ -9,33 +9,33 @@ Welcome to the Basecamp Scaffold Tutorial!!! This project provides a step-by-ste
 
 ## What You'll Build
 
-This tutorial guides you through building a decentralized application in three progressive steps. All changes throughout the tutorial are focused on just two main files:
+This tutorial guides you through building a decentralized application in three progressive steps, with each section designed to take 30-40 minutes in a workshop setting. All changes throughout the tutorial are focused on just two main files:
 - Frontend: [`packages/nextjs/app/page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/base/packages/nextjs/app/page.tsx)
 - Smart Contract: [`packages/snfoundry/contracts/src/yourcontract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/base/packages/snfoundry/contracts/src/yourcontract.cairo)
 
-0. **Step 0: Scaffold Stark Base**
+The tutorial is divided into the following steps:
+
+0. **Step 0: Scaffold Stark Base** ([branch: step-0](https://github.com/Scaffold-Stark/basecamp/tree/step-0))
    - Starts from zero as a fresh clone of Scaffold-Stark
    - Basic UI layout with minimal functionality
-     
-1. **Step 1: Basic Hooks Integration**
+
+1. **Step 1: Basic Hooks Integration** ([branch: step-1](https://github.com/Scaffold-Stark/basecamp/tree/step-1))
    - No contract updates needed
    - Introduces core Scaffold-Stark hooks (`useScaffoldWriteContract` and `useScaffoldReadContract`)
    - Changes only in `page.tsx`
+   - [View changes from step-0 to step-1](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1)
 
-2. **Step 2: Multi-Token Support**
+2. **Step 2: Multi-Token Support** ([branch: step-2](https://github.com/Scaffold-Stark/basecamp/tree/step-2))
    - Updates `yourcontract.cairo` to support STRK and ETH deposits
    - Enhances `page.tsx` with token selection and balance display
    - Follow prompts in both files for guided implementation
+   - [View changes from step-1 to step-2](https://github.com/Scaffold-Stark/basecamp/compare/step-1...step-2)
 
-3. **Step 3: Full zklend Integration**
+3. **Step 3: Full zklend Integration** ([branch: step-3](https://github.com/Scaffold-Stark/basecamp/tree/step-3))
    - Updates `yourcontract.cairo` with zklend protocol integration
    - Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
    - Includes mainnet deployment steps
-
-You can review exact changes between steps here:
-- [Changes from step-0 to step-1](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1)
-- [Changes from step-1 to step-2](https://github.com/Scaffold-Stark/basecamp/compare/step-1...step-2)
-- [Changes from step-2 to step-3](https://github.com/Scaffold-Stark/basecamp/compare/step-2...step-3)
+   - [View changes from step-2 to step-3](https://github.com/Scaffold-Stark/basecamp/compare/step-2...step-3)
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
 
@@ -43,7 +43,15 @@ Each step builds upon the previous one, introducing new concepts and features wh
 
 ## Getting Started
 
-1. **Environment Setup**
+1. **Clone and Setup**
+   ```bash
+   git clone https://github.com/Scaffold-Stark/basecamp.git
+   cd basecamp
+   git checkout step-0
+   yarn install
+   ```
+
+2. **Environment Setup**
    ```bash
    # Copy the example env file in packages/snfoundry
    cp packages/snfoundry/.env.example packages/snfoundry/.env
@@ -58,15 +66,7 @@ Each step builds upon the previous one, introducing new concepts and features wh
    > 
    > 💡 The `.env` file belongs in the `packages/snfoundry/` directory where your smart contracts live
    >
-   > 🔥 Try to use mainnet to teach, use the same format but replace `SEPOLIA` with `MAINNET` in the variable names
-
-2. **Clone and Setup**
-   ```bash
-   git clone https://github.com/Scaffold-Stark/basecamp.git
-   cd basecamp
-   git checkout step-0
-   yarn install
-   ```
+   > 🔥 Try to use mainnet to teach !!! , use the same format but replace `SEPOLIA` with `MAINNET` in the variable names
 
 3. **Start Development**
    ```bash
