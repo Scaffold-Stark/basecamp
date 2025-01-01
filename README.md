@@ -39,6 +39,33 @@ You can review exact changes between steps here:
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
 
+
+
+## Getting Started
+
+1. **Clone and Setup**
+   ```bash
+   git clone https://github.com/Scaffold-Stark/basecamp.git
+   cd basecamp
+   git checkout step-0
+   yarn install
+   ```
+
+2. **Start Development**
+   ```bash
+   yarn start
+   ```
+
+3. **Follow Along**
+   - Begin with `step-0` branch which provides the basic layout
+   - Open `packages/nextjs/app/page.tsx` in your editor
+   - Compare with [step-0 to step-1 changes](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1) to see what needs to be implemented
+   - Implement the hooks and functionality as guided in the comments
+   - Use the comparison view as a reference if you get stuck
+
+> 💡 **Tip:** Each step's branch contains the complete implementation. If you're stuck, you can always check the final code in the corresponding branch or use the comparison links provided above.
+
+
 ## Updating the Framework
 
 This tutorial is built on top of Scaffold-Stark. To update the base branch from [Scaffold-Stark main](https://github.com/Scaffold-Stark/scaffold-stark-2):
