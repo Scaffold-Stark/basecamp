@@ -39,8 +39,6 @@ The tutorial is divided into the following steps:
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
 
-
-
 ## Getting Started
 
 1. **Clone and Setup**
