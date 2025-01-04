@@ -51,7 +51,6 @@ const Home = () => {
     blockIdentifier: "pending" as BlockTag,
   });
 
-<<<<<<< HEAD
   const { data: events } = useScaffoldEventHistory({
     contractName: "YourContract",
     eventName: "contracts::YourContract::YourContract::GreetingChanged",
@@ -59,8 +58,6 @@ const Home = () => {
     watch: true,
   });
 
-=======
->>>>>>> step-2
   const { sendAsync: setGreetingNoPayment } = useScaffoldWriteContract({
     contractName: "YourContract",
     functionName: "set_greeting",
