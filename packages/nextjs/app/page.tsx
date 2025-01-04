@@ -34,12 +34,6 @@ const Home = () => {
     functionName: "premium",
   });
 
-  const { data: ethBalance } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "token_deposits",
-    args: [EthContract?.address],
-  });
-
   const { data: lastBlock } = useBlockNumber({
     blockIdentifier: "pending" as BlockTag,
   });
