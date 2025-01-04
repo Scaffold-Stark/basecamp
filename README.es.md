@@ -15,7 +15,7 @@ Este tutorial te guía para construir una aplicación descentralizada en tres pa
 
 El tutorial está dividido en los siguientes pasos:
 
-0. **Paso 0: Base de Scaffold Stark** ([rama: step-0](https://github.com/Scaffold-Stark/basecamp/tree/step-0))
+0. **Paso 0: Base de Scaffold Stark** ([branch: step-0](https://github.com/Scaffold-Stark/basecamp/tree/step-0))
    - Comienza desde cero como un clon nuevo de Scaffold-Stark
    - En este paso, mostramos el diseño de la UI básica y el diseño del contrato con la pestaña `debug-ui`
    - Juegue con la pestaña `debug-ui`, enviando transacciones y leyendo valores
