@@ -125,6 +125,9 @@ mod YourContract {
 
             eth_dispatcher.transfer(self.ownable.owner(), eth_balance);
             strk_dispatcher.transfer(self.ownable.owner(), strk_balance);
+
+            self.token_deposits.write(contract_address_const::<ETH_CONTRACT_ADDRESS>(), 0);
+            self.token_deposits.write(contract_address_const::<STRK_CONTRACT_ADDRESS>(), 0);
         }
     }
     // internal
