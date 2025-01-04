@@ -26,8 +26,8 @@ The tutorial is divided into the following steps:
    - Changes only in [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-1/packages/nextjs/app/page.tsx)
    - Introduces core Scaffold-Stark hooks (`useScaffoldWriteContract`, `useScaffoldReadContract`, `useScaffoldMultiWriteContract`, `useTargetNetwork`, `useDeployedContractInfo`)
    - You can now interact with the contract using the hooks on the UI and deploy the contract and website to the network of your choice
-   - add this point we should showcase a `MAINNET` or `SEPOLIA` deployment
-   - add this point we shoudl showcase a `VERCEL` deployment
+   - at this point we should showcase a `MAINNET` or `SEPOLIA` deployment
+   - at this point we should showcase a `VERCEL` deployment
    - [View changes from step-0 to step-1](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1)
 
 2. **Step 2: Multi-Token Support** ([branch: step-2](https://github.com/Scaffold-Stark/basecamp/tree/step-2))
