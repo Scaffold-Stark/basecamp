@@ -17,24 +17,34 @@ The tutorial is divided into the following steps:
 
 0. **Step 0: Scaffold Stark Base** ([branch: step-0](https://github.com/Scaffold-Stark/basecamp/tree/step-0))
    - Starts from zero as a fresh clone of Scaffold-Stark
-   - Basic UI layout with minimal functionality
+   - At this step lets showcase the basic UI layout and the contract layout with the `debug-ui` tab
+   - play around with the `debug-ui` tab, sending transactions and reading values
+   - Basic UI layout with zero functionality
 
 1. **Step 1: Basic Hooks Integration** ([branch: step-1](https://github.com/Scaffold-Stark/basecamp/tree/step-1))
-   - No contract updates needed
-   - Introduces core Scaffold-Stark hooks (`useScaffoldWriteContract` and `useScaffoldReadContract`)
-   - Changes only in `page.tsx`
+   - No contract updates needed, time to write UI
+   - Changes only in [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-1/packages/nextjs/app/page.tsx)
+   - Introduces core Scaffold-Stark hooks (`useScaffoldWriteContract`, `useScaffoldReadContract`, `useScaffoldMultiWriteContract`, `useTargetNetwork`, `useDeployedContractInfo`)
+   - You can now interact with the contract using the hooks on the UI and deploy the contract and website to the network of your choice
+   - add this point we should showcase a `MAINNET` or `SEPOLIA` deployment
+   - add this point we shoudl showcase a `VERCEL` deployment
    - [View changes from step-0 to step-1](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1)
 
 2. **Step 2: Multi-Token Support** ([branch: step-2](https://github.com/Scaffold-Stark/basecamp/tree/step-2))
-   - Updates `yourcontract.cairo` to support STRK and ETH deposits
-   - Enhances `page.tsx` with token selection and balance display
-   - Follow prompts in both files for guided implementation
+   - Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/snfoundry/contracts/src/YourContract.cairo) to support STRK and ETH deposits
+   - Enhances [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/nextjs/app/page.tsx) with token selection and balance display
+   - Introduces `useScaffoldEventHistory` hook to fetch filtered events from the contract
+   - We dont need to showcase `MAINNET` or `SEPOLIA` deployment here nor `VERCEL` deployment
+   - At this point the user should be able to send STRK and ETH to the contract through our UI and see the events logged at the bottom.
    - [View changes from step-1 to step-2](https://github.com/Scaffold-Stark/basecamp/compare/step-1...step-2)
 
 3. **Step 3: Full zklend Integration** ([branch: step-3](https://github.com/Scaffold-Stark/basecamp/tree/step-3))
-   - Updates `yourcontract.cairo` with zklend protocol integration
+   - Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-3/packages/snfoundry/contracts/src/YourContract.cairo) with zklend integration
+   - All the STRK and ETH deposits are now sent to zklend for yield farming
+   - Introduces development on mainnet fork
    - Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
    - Includes mainnet deployment steps
+   - You can send STRK and ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime
    - [View changes from step-2 to step-3](https://github.com/Scaffold-Stark/basecamp/compare/step-2...step-3)
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
@@ -53,7 +63,7 @@ Each step builds upon the previous one, introducing new concepts and features wh
 
 2. **Environment Setup**
    ```bash
-   # Copy the example env file in packages/snfoundry
+   # [OPTIONAL] The postinstall should have created the .env file for you, if not, copy the example env file in packages/snfoundry
    cp packages/snfoundry/.env.example packages/snfoundry/.env
    ```
    Example of `packages/snfoundry/.env` for Sepolia:
@@ -81,7 +91,7 @@ Each step builds upon the previous one, introducing new concepts and features wh
    - Begin with `step-0` branch which provides the basic layout
    - Open `packages/nextjs/app/page.tsx` in your editor
    - Compare with [step-0 to step-1 changes](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1) to see what needs to be implemented
-   - Implement the hooks and functionality as guided in the comments
+   - Implement the hooks and functionality as guided in the comments on `What You'll Build` section, make sure you understand what we are building through each of the steps
    - Use the comparison view as a reference if you get stuck
 
 > 💡 **Tip:** Each step's branch contains the complete implementation. If you're stuck, you can always check the final code in the corresponding branch or use the comparison links provided above.
