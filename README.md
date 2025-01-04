@@ -70,8 +70,11 @@ Each step builds upon the previous one, introducing new concepts and features wh
 
 3. **Start Development**
    ```bash
-   yarn start
+   # Terminal 1
    yarn deploy --network sepolia
+
+   # Terminal 2
+   yarn start
    ```
 
 4. **Development Guide**
