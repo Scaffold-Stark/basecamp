@@ -51,6 +51,12 @@ const Home = () => {
     blockIdentifier: "pending" as BlockTag,
   });
 
+  const { data: ethBalance } = useScaffoldReadContract({
+    contractName: "Eth",
+    functionName: "balance_of",
+    args: [YourContract?.address],
+  });
+
   const { data: events } = useScaffoldEventHistory({
     contractName: "YourContract",
     eventName: "contracts::YourContract::YourContract::GreetingChanged",
