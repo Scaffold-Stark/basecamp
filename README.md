@@ -26,8 +26,8 @@ The tutorial is divided into the following steps:
    - Changes only in [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-1/packages/nextjs/app/page.tsx)
    - Introduces core Scaffold-Stark hooks (`useScaffoldWriteContract`, `useScaffoldReadContract`, `useScaffoldMultiWriteContract`, `useTargetNetwork`, `useDeployedContractInfo`)
    - You can now interact with the contract using the hooks on the UI and deploy the contract and website to the network of your choice
-   - at this point we should showcase a `MAINNET` or `SEPOLIA` deployment
-   - at this point we should showcase a `VERCEL` deployment
+   - At this point we should showcase a `MAINNET` or `SEPOLIA` deployment
+   - At this point we should showcase a `VERCEL` deployment
    - [View changes from step-0 to step-1](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1)
 
 2. **Step 2: Multi-Token Support** ([branch: step-2](https://github.com/Scaffold-Stark/basecamp/tree/step-2))
@@ -48,8 +48,6 @@ The tutorial is divided into the following steps:
    - [View changes from step-2 to step-3](https://github.com/Scaffold-Stark/basecamp/compare/step-2...step-3)
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
-
-
 
 ## Getting Started
 
@@ -96,13 +94,12 @@ Each step builds upon the previous one, introducing new concepts and features wh
 
 > 💡 **Tip:** Each step's branch contains the complete implementation. If you're stuck, you can always check the final code in the corresponding branch or use the comparison links provided above.
 
-
 ## Updating the Framework
 
 This tutorial is built on top of Scaffold-Stark. To update the base branch from [Scaffold-Stark main](https://github.com/Scaffold-Stark/scaffold-stark-2):
 
 ```bash
-// on a fresh terminal that doesnt have a `basecamp-temp` directory
+# On a fresh terminal that doesnt have a `basecamp-temp` directory
 
 git clone git@github.com:Scaffold-Stark/basecamp.git basecamp-temp && cd basecamp-temp && git checkout base && mkdir temp_scaffold && cd temp_scaffold && git clone git@github.com:Scaffold-Stark/scaffold-stark-2.git . && rm -rf .git .github README.md && cp -r * ../ && cd .. && rm -rf temp_scaffold && git add . && git commit -m "Update framework to latest version" && git push origin base
 ```
