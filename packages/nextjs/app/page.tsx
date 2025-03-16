@@ -8,6 +8,7 @@ import { useScaffoldMultiWriteContract } from "~~/hooks/scaffold-stark/useScaffo
 import { useDeployedContractInfo } from "~~/hooks/scaffold-stark/useDeployedContractInfo";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWriteContract";
 import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
+import { CairoOption, CairoOptionVariant } from "starknet";
 
 const Home = () => {
   const [selectedToken] = useState<"ETH">("ETH");
@@ -53,8 +54,7 @@ const Home = () => {
                 <h3 className="text-lg font-semibold mb-2">Premium Status</h3>
                 <div className="flex items-center space-x-2">
                   <div
-                    //className={`w-3 h-3 rounded-full ${premium ? "bg-green-500" : "bg-gray-400"}`}
-                    className="w-3 h-3 rounded-full bg-gray-400"
+                  //className={`w-3 h-3 rounded-full ${premium ? "bg-green-500" : "bg-gray-400"}`}
                   ></div>
                   <span className="text-xl font-medium">
                     {/* {premium ? "Active" : "Inactive"} */}
