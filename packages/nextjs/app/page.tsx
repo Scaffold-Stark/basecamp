@@ -34,7 +34,7 @@ const Home = () => {
 
   const { data: ethBalance } = useScaffoldReadContract({
     contractName: "Eth",
-    functionName: "balanceOf",
+    functionName: "balance_of",
     args: [YourContract?.address],
   });
 
