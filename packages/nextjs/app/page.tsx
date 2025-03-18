@@ -104,7 +104,7 @@ const Home = () => {
               <div className="p-4 bg-base-200 rounded-xl">
                 <h3 className="text-lg font-semibold mb-2">Current Greeting</h3>
                 <p className="text-xl font-medium break-all">
-                  {/* {currentGreeting?.toString() ?? "No greeting set"} */}
+                  {currentGreeting?.toString() ?? "No greeting set"}
                 </p>
               </div>
 
@@ -112,7 +112,7 @@ const Home = () => {
                 <h3 className="text-lg font-semibold mb-2">Premium Status</h3>
                 <div className="flex items-center space-x-2">
                   <div
-                  //className={`w-3 h-3 rounded-full ${premium ? "bg-green-500" : "bg-gray-400"}`}
+                    className={`w-3 h-3 rounded-full ${premium ? "bg-green-500" : "bg-gray-400"}`}
                   ></div>
                   <span className="text-xl font-medium">
                     {premium ? "Active" : "Inactive"}
@@ -128,7 +128,7 @@ const Home = () => {
               </h2>
               <button
                 className="btn btn-primary btn-lg"
-                //onClick={() => withdrawAll()}
+                onClick={() => withdrawAll()}
               >
                 Withdraw All Funds
               </button>
@@ -144,9 +144,9 @@ const Home = () => {
                     Available ETH
                   </span>
                   <span className="text-xl font-medium">
-                    {/* {ethBalance
-						  ? (Number(ethBalance) / 10 ** 18).toFixed(6)
-						  : "0.000000"}{" "} */}
+                    {ethBalance
+                      ? (Number(ethBalance) / 10 ** 18).toFixed(6)
+                      : "0.000000"}{" "}
                     ETH
                   </span>
                 </div>
