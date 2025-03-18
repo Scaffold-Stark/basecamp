@@ -60,7 +60,7 @@ const Home = () => {
   const noneOptionBigInt: CairoOption<bigint> = new CairoOption(
     CairoOptionVariant.None,
   );
-  
+
   const noneOptionString: CairoOption<string> = new CairoOption(
     CairoOptionVariant.None,
   );
@@ -102,16 +102,10 @@ const Home = () => {
       {
         contractName: "YourContract",
         functionName: "set_greeting",
-        args: [
-          greeting,
-          someOptionBigInt,
-          getTokenAddressOption(),
-        ],
+        args: [greeting, someOptionBigInt, getTokenAddressOption()],
       },
     ],
   });
-
-  
 
   const handleSetGreeting = async () => {
     if (isNoneOption) {
@@ -351,8 +345,12 @@ const Home = () => {
                     Set Greeting to {event.args.new_greeting}
                     {event.args.value.unwrap() > 0n && (
                       <span className="ml-2 text-primary">
-                        with {(Number(event.args.value.unwrap()) / 10 ** 18).toFixed(6)}
-                        {event.args.token.unwrap() === BigInt(EthContract?.address || "")
+                        with{" "}
+                        {(Number(event.args.value.unwrap()) / 10 ** 18).toFixed(
+                          6,
+                        )}
+                        {event.args.token.unwrap() ===
+                        BigInt(EthContract?.address || "")
                           ? " ETH"
                           : " STRK"}
                       </span>

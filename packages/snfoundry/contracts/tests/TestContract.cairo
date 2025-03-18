@@ -1,5 +1,5 @@
-use contracts::YourContract::{IYourContractDispatcher, IYourContractDispatcherTrait};
 use contracts::YourContract::YourContract::{ETH_CONTRACT_ADDRESS, STRK_CONTRACT_ADDRESS};
+use contracts::YourContract::{IYourContractDispatcher, IYourContractDispatcherTrait};
 use openzeppelin_token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
 use openzeppelin_utils::serde::SerializedAppend;
 use snforge_std::{CheatSpan, ContractClassTrait, DeclareResultTrait, cheat_caller_address, declare};
