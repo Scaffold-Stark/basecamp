@@ -4,7 +4,10 @@ use starknet::ContractAddress;
 pub trait IYourContract<TContractState> {
     fn greeting(self: @TContractState) -> ByteArray;
     fn set_greeting(
-        ref self: TContractState, new_greeting: ByteArray, amount: u256, token: ContractAddress,
+        ref self: TContractState,
+        new_greeting: ByteArray,
+        option_amount: Option<u256>,
+        token: ContractAddress,
     );
     fn withdraw(ref self: TContractState);
     fn premium(self: @TContractState) -> bool;
@@ -76,34 +79,41 @@ mod YourContract {
         }
 
         fn set_greeting(
-            ref self: ContractState, new_greeting: ByteArray, amount: u256, token: ContractAddress,
+            ref self: ContractState,
+            new_greeting: ByteArray,
+            option_amount: Option<u256>,
+            token: ContractAddress,
         ) {
             self._require_supported_token(token);
             self.greeting.write(new_greeting);
             self.total_counter.write(self.total_counter.read() + 1);
             let user_counter = self.user_greeting_counter.read(get_caller_address());
             self.user_greeting_counter.write(get_caller_address(), user_counter + 1);
-            if amount > 0 {
-                self
-                    ._get_token_dispatcher(token)
-                    .transfer_from(get_caller_address(), get_contract_address(), amount);
-                self.premium.write(true);
-            } else {
-                self.premium.write(false);
+
+            match option_amount {
+                Option::Some(amount) => {
+                    if amount > 0 {
+                        self
+                            ._get_token_dispatcher(token)
+                            .transfer_from(get_caller_address(), get_contract_address(), amount);
+                        self.premium.write(true);
+                        self.token_deposits.write(token, self.token_deposits.read(token) + amount);
+                        self
+                            .emit(
+                                GreetingChanged {
+                                    greeting_setter: get_caller_address(),
+                                    new_greeting: self.greeting.read(),
+                                    premium: self.premium.read(),
+                                    value: amount,
+                                    token: token,
+                                },
+                            );
+                    } else {
+                        panic!("Amount must be greater than 0");
+                    }
+                },
+                Option::None => { self.premium.write(false); },
             }
-
-            self.token_deposits.write(token, self.token_deposits.read(token) + amount);
-
-            self
-                .emit(
-                    GreetingChanged {
-                        greeting_setter: get_caller_address(),
-                        new_greeting: self.greeting.read(),
-                        premium: self.premium.read(),
-                        value: amount,
-                        token: token,
-                    },
-                );
         }
         fn premium(self: @ContractState) -> bool {
             self.premium.read()
