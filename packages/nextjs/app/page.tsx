@@ -57,14 +57,18 @@ const Home = () => {
     watch: true,
   });
 
-  const noneOption: CairoOption<bigint> = new CairoOption(
+  const noneOptionBigInt: CairoOption<bigint> = new CairoOption(
+    CairoOptionVariant.None,
+  );
+  
+  const noneOptionString: CairoOption<string> = new CairoOption(
     CairoOptionVariant.None,
   );
 
   const { sendAsync: setGreetingNoPayment } = useScaffoldWriteContract({
     contractName: "YourContract",
     functionName: "set_greeting",
-    args: [greeting, noneOption, EthContract?.address],
+    args: [greeting, noneOptionBigInt, noneOptionString],
   });
 
   const { sendAsync: withdrawAll } = useScaffoldWriteContract({
@@ -72,31 +76,42 @@ const Home = () => {
     functionName: "withdraw",
   });
 
-  const someOption: CairoOption<bigint> = new CairoOption(
+  const someOptionBigInt: CairoOption<bigint> = new CairoOption(
     CairoOptionVariant.Some,
     inputAmount,
   );
+
+  // Helper function to determine the token address option
+  const getTokenAddressOption = () => {
+    if (selectedToken === "ETH" && EthContract?.address) {
+      return new CairoOption(CairoOptionVariant.Some, EthContract.address);
+    } else if (selectedToken === "STRK" && StrkContract?.address) {
+      return new CairoOption(CairoOptionVariant.Some, StrkContract.address);
+    } else {
+      return noneOptionString;
+    }
+  };
 
   const { sendAsync: setGreetingWithPayment } = useScaffoldMultiWriteContract({
     calls: [
       {
         contractName: selectedToken === "ETH" ? "Eth" : "Strk",
         functionName: "approve",
-        args: [YourContract?.address, someOption.unwrap()],
+        args: [YourContract?.address, someOptionBigInt.unwrap()],
       },
       {
         contractName: "YourContract",
         functionName: "set_greeting",
         args: [
           greeting,
-          someOption,
-          selectedToken === "ETH"
-            ? EthContract?.address
-            : StrkContract?.address,
+          someOptionBigInt,
+          getTokenAddressOption(),
         ],
       },
     ],
   });
+
+  
 
   const handleSetGreeting = async () => {
     if (isNoneOption) {
@@ -334,10 +349,10 @@ const Home = () => {
                 <div key={index} className="p-4 bg-base-200 rounded-xl">
                   <p className="text-lg">
                     Set Greeting to {event.args.new_greeting}
-                    {event.args.value > 0n && (
+                    {event.args.value.unwrap() > 0n && (
                       <span className="ml-2 text-primary">
-                        with {(Number(event.args.value) / 10 ** 18).toFixed(6)}
-                        {event.args.token === BigInt(EthContract?.address || "")
+                        with {(Number(event.args.value.unwrap()) / 10 ** 18).toFixed(6)}
+                        {event.args.token.unwrap() === BigInt(EthContract?.address || "")
                           ? " ETH"
                           : " STRK"}
                       </span>
