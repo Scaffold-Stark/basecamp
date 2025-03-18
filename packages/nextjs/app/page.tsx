@@ -1,23 +1,22 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import { ConnectedAddress } from "~~/components/ConnectedAddress";
 import { useState } from "react";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-stark/useScaffoldReadContract";
 import { useScaffoldEventHistory } from "~~/hooks/scaffold-stark/useScaffoldEventHistory";
 import { useScaffoldMultiWriteContract } from "~~/hooks/scaffold-stark/useScaffoldMultiWriteContract";
 import { useBlockNumber } from "@starknet-react/core";
-import { BlockTag } from "starknet";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-stark";
+import { useDeployedContractInfo } from "~~/hooks/scaffold-stark/useDeployedContractInfo";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWriteContract";
 import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
+import { CairoOption, CairoOptionVariant, BlockTag } from "starknet";
 
 const Home = () => {
   const [selectedToken, setSelectedToken] = useState<"ETH" | "STRK">("ETH");
   const [inputAmount, setInputAmount] = useState<bigint>(0n);
   const [greeting, setGreeting] = useState<string>("");
-  const [displayAmount, setDisplayAmount] = useState<string>("0");
+  const [displayAmount, setDisplayAmount] = useState<string>("");
+  const [isNoneOption, setIsNoneOption] = useState<boolean>(true);
 
   const { targetNetwork } = useTargetNetwork();
 
@@ -58,10 +57,18 @@ const Home = () => {
     watch: true,
   });
 
+  const noneOptionBigInt: CairoOption<bigint> = new CairoOption(
+    CairoOptionVariant.None,
+  );
+
+  const noneOptionString: CairoOption<string> = new CairoOption(
+    CairoOptionVariant.None,
+  );
+
   const { sendAsync: setGreetingNoPayment } = useScaffoldWriteContract({
     contractName: "YourContract",
     functionName: "set_greeting",
-    args: [greeting, 0n, EthContract?.address],
+    args: [greeting, noneOptionBigInt, noneOptionString],
   });
 
   const { sendAsync: withdrawAll } = useScaffoldWriteContract({
@@ -69,33 +76,42 @@ const Home = () => {
     functionName: "withdraw",
   });
 
+  const someOptionBigInt: CairoOption<bigint> = new CairoOption(
+    CairoOptionVariant.Some,
+    inputAmount,
+  );
+
+  // Helper function to determine the token address option
+  const getTokenAddressOption = () => {
+    if (selectedToken === "ETH" && EthContract?.address) {
+      return new CairoOption(CairoOptionVariant.Some, EthContract.address);
+    } else if (selectedToken === "STRK" && StrkContract?.address) {
+      return new CairoOption(CairoOptionVariant.Some, StrkContract.address);
+    } else {
+      return noneOptionString;
+    }
+  };
+
   const { sendAsync: setGreetingWithPayment } = useScaffoldMultiWriteContract({
     calls: [
       {
         contractName: selectedToken === "ETH" ? "Eth" : "Strk",
         functionName: "approve",
-        args: [YourContract?.address, BigInt(inputAmount)],
+        args: [YourContract?.address, someOptionBigInt.unwrap()],
       },
       {
         contractName: "YourContract",
         functionName: "set_greeting",
-        args: [
-          greeting,
-          BigInt(inputAmount),
-          selectedToken === "ETH"
-            ? EthContract?.address
-            : StrkContract?.address,
-        ],
+        args: [greeting, someOptionBigInt, getTokenAddressOption()],
       },
     ],
   });
 
   const handleSetGreeting = async () => {
-    const amount = BigInt(inputAmount);
-    if (amount > 0n) {
-      await setGreetingWithPayment();
-    } else {
+    if (isNoneOption) {
       await setGreetingNoPayment();
+    } else {
+      await setGreetingWithPayment();
     }
   };
 
@@ -112,7 +128,6 @@ const Home = () => {
             </span>
           </div>
         </h1>
-
         <ConnectedAddress />
         <div className="mt-8 space-y-6">
           <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg">
@@ -123,7 +138,7 @@ const Home = () => {
               <div className="p-4 bg-base-200 rounded-xl">
                 <h3 className="text-lg font-semibold mb-2">Current Greeting</h3>
                 <p className="text-xl font-medium break-all">
-                  {currentGreeting?.toString() || "No greeting set"}
+                  {currentGreeting?.toString() ?? "No greeting set"}
                 </p>
               </div>
 
@@ -140,7 +155,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
           <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-secondary">
@@ -184,7 +198,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
           <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg">
             <h2 className="text-2xl font-bold mb-6 text-secondary">
               Set Greeting & Deposit
@@ -214,25 +227,94 @@ const Home = () => {
                     Amount ({selectedToken})
                   </span>
                 </label>
-                <input
-                  type="number"
-                  className="input input-bordered input-lg text-lg"
-                  value={displayAmount || ""}
-                  onChange={(e) => {
-                    setDisplayAmount(e.target.value);
-                    setInputAmount(BigInt(Number(e.target.value) * 10 ** 18));
-                  }}
-                  placeholder={`Enter ${selectedToken} amount`}
-                />
-              </div>
+                <div className="bg-base-200 p-4 rounded-xl border-2 border-secondary">
+                  <div className="flex flex-col space-y-4">
+                    {/* Some Option */}
+                    <label
+                      className="flex items-center gap-3 cursor-pointer"
+                      htmlFor="option-some"
+                    >
+                      <input
+                        id="option-some"
+                        className="radio radio-xs radio-secondary"
+                        type="radio"
+                        name="option-type"
+                        checked={!isNoneOption}
+                        onChange={() => setIsNoneOption(false)}
+                        aria-label="Select some amount option"
+                      />
+                      <div className="flex flex-col gap-1.5 w-full">
+                        <div className="flex items-center ml-2">
+                          <span className="text-xs font-medium mr-2 leading-none">
+                            Some amount
+                          </span>
+                        </div>
+                        <div className="flex bg-base-300 text-accent rounded-lg">
+                          <input
+                            type="number"
+                            className="input input-ghost focus:outline-none h-[2.2rem] min-h-[2.2rem] px-4 w-full text-xs placeholder:text-[#9596BF] text-neutral rounded-lg"
+                            value={displayAmount || ""}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              setDisplayAmount(value);
+                              if (value && value !== "") {
+                                try {
+                                  const amountInWei = BigInt(
+                                    Math.floor(Number(value) * 10 ** 18),
+                                  );
+                                  setInputAmount(amountInWei);
+                                } catch (error) {
+                                  console.error("Invalid number input:", error);
+                                }
+                              } else {
+                                setInputAmount(0n);
+                              }
+                              setIsNoneOption(false);
+                            }}
+                            placeholder="Enter amount"
+                            disabled={isNoneOption}
+                            autoComplete="off"
+                          />
+                        </div>
+                      </div>
+                    </label>
 
+                    {/* None Option */}
+                    <label
+                      className="flex items-center gap-3 cursor-pointer"
+                      htmlFor="option-none"
+                    >
+                      <input
+                        id="option-none"
+                        className="radio radio-xs radio-secondary"
+                        type="radio"
+                        name="option-type"
+                        checked={isNoneOption}
+                        onChange={() => setIsNoneOption(true)}
+                        aria-label="Select no amount option"
+                      />
+                      <div className="flex flex-col gap-1.5 w-full">
+                        <div className="flex items-center ml-2">
+                          <span className="text-xs font-medium mr-2 leading-none">
+                            No amount
+                          </span>
+                        </div>
+                        <div className="flex bg-base-300 text-accent h-[2.2rem] px-4 items-center rounded-lg">
+                          <span className="text-xs opacity-50">No value</span>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
               <div className="form-control">
-                <label className="label">
+                <label className="label" htmlFor="greeting-input">
                   <span className="label-text text-lg font-medium">
                     Greeting Message
                   </span>
                 </label>
                 <input
+                  id="greeting-input"
                   type="text"
                   className="input input-bordered input-lg text-lg"
                   value={greeting}
@@ -240,7 +322,6 @@ const Home = () => {
                   placeholder="Enter your greeting"
                 />
               </div>
-
               <button
                 className="btn btn-primary btn-lg w-full text-lg"
                 onClick={handleSetGreeting}
@@ -262,10 +343,14 @@ const Home = () => {
                 <div key={index} className="p-4 bg-base-200 rounded-xl">
                   <p className="text-lg">
                     Set Greeting to {event.args.new_greeting}
-                    {event.args.value > 0n && (
+                    {event.args.value.unwrap() > 0n && (
                       <span className="ml-2 text-primary">
-                        with {(Number(event.args.value) / 10 ** 18).toFixed(6)}
-                        {event.args.token === BigInt(EthContract?.address || "")
+                        with{" "}
+                        {(Number(event.args.value.unwrap()) / 10 ** 18).toFixed(
+                          6,
+                        )}
+                        {event.args.token.unwrap() ===
+                        BigInt(EthContract?.address || "")
                           ? " ETH"
                           : " STRK"}
                       </span>
@@ -280,5 +365,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;
