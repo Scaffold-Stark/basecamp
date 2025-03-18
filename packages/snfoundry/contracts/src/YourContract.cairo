@@ -4,7 +4,10 @@ use starknet::ContractAddress;
 pub trait IYourContract<TContractState> {
     fn greeting(self: @TContractState) -> ByteArray;
     fn set_greeting(
-        ref self: TContractState, new_greeting: ByteArray, amount: u256, token: ContractAddress,
+        ref self: TContractState,
+        new_greeting: ByteArray,
+        option_amount: Option<u256>,
+        option_token: Option<ContractAddress>,
     );
     fn withdraw(ref self: TContractState);
     fn premium(self: @TContractState) -> bool;
@@ -12,7 +15,7 @@ pub trait IYourContract<TContractState> {
 }
 
 #[starknet::contract]
-mod YourContract {
+pub mod YourContract {
     use openzeppelin_access::ownable::OwnableComponent;
     use openzeppelin_token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
     use starknet::storage::{Map, StorageMapReadAccess, StorageMapWriteAccess};
@@ -28,9 +31,9 @@ mod YourContract {
     impl OwnableImpl = OwnableComponent::OwnableImpl<ContractState>;
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
 
-    const ETH_CONTRACT_ADDRESS: felt252 =
+    pub const ETH_CONTRACT_ADDRESS: felt252 =
         0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7;
-    const STRK_CONTRACT_ADDRESS: felt252 =
+    pub const STRK_CONTRACT_ADDRESS: felt252 =
         0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d;
 
     #[event]
@@ -48,8 +51,8 @@ mod YourContract {
         #[key]
         new_greeting: ByteArray,
         premium: bool,
-        value: u256,
-        token: ContractAddress,
+        value: Option<u256>,
+        token: Option<ContractAddress>,
     }
 
     #[storage]
@@ -76,34 +79,58 @@ mod YourContract {
         }
 
         fn set_greeting(
-            ref self: ContractState, new_greeting: ByteArray, amount: u256, token: ContractAddress,
+            ref self: ContractState,
+            new_greeting: ByteArray,
+            option_amount: Option<u256>,
+            option_token: Option<ContractAddress>,
         ) {
-            self._require_supported_token(token);
+            self._require_supported_token(option_token);
             self.greeting.write(new_greeting);
             self.total_counter.write(self.total_counter.read() + 1);
             let user_counter = self.user_greeting_counter.read(get_caller_address());
             self.user_greeting_counter.write(get_caller_address(), user_counter + 1);
-            if amount > 0 {
-                self
-                    ._get_token_dispatcher(token)
-                    .transfer_from(get_caller_address(), get_contract_address(), amount);
-                self.premium.write(true);
-            } else {
-                self.premium.write(false);
+
+            match (option_amount, option_token) {
+                (
+                    Option::Some(amount), Option::Some(token),
+                ) => {
+                    if amount > 0 {
+                        self
+                            ._get_token_dispatcher(token)
+                            .transfer_from(get_caller_address(), get_contract_address(), amount);
+                        self.premium.write(true);
+                        self.token_deposits.write(token, self.token_deposits.read(token) + amount);
+                        self
+                            .emit(
+                                GreetingChanged {
+                                    greeting_setter: get_caller_address(),
+                                    new_greeting: self.greeting.read(),
+                                    premium: true,
+                                    value: Option::Some(amount),
+                                    token: Option::Some(token),
+                                },
+                            );
+                    } else {
+                        panic!("Amount must be greater than 0");
+                    }
+                },
+                (
+                    Option::None, Option::None,
+                ) => {
+                    self.premium.write(false);
+                    self
+                        .emit(
+                            GreetingChanged {
+                                greeting_setter: get_caller_address(),
+                                new_greeting: self.greeting.read(),
+                                premium: false,
+                                value: Option::None,
+                                token: Option::None,
+                            },
+                        );
+                },
+                _ => { panic!("Unreachable"); },
             }
-
-            self.token_deposits.write(token, self.token_deposits.read(token) + amount);
-
-            self
-                .emit(
-                    GreetingChanged {
-                        greeting_setter: get_caller_address(),
-                        new_greeting: self.greeting.read(),
-                        premium: self.premium.read(),
-                        value: amount,
-                        token: token,
-                    },
-                );
         }
         fn premium(self: @ContractState) -> bool {
             self.premium.read()
@@ -140,12 +167,16 @@ mod YourContract {
             return IERC20Dispatcher { contract_address: token };
         }
 
-        fn _require_supported_token(ref self: ContractState, token: ContractAddress) {
-            assert(
-                token == contract_address_const::<STRK_CONTRACT_ADDRESS>()
-                    || token == contract_address_const::<ETH_CONTRACT_ADDRESS>(),
-                'Unsupported token',
-            );
+        fn _require_supported_token(
+            ref self: ContractState, option_token: Option<ContractAddress>,
+        ) {
+            if let Option::Some(token) = option_token {
+                assert(
+                    token == contract_address_const::<STRK_CONTRACT_ADDRESS>()
+                        || token == contract_address_const::<ETH_CONTRACT_ADDRESS>(),
+                    'Unsupported token',
+                );
+            }
         }
     }
 }
