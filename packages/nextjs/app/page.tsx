@@ -17,6 +17,8 @@ const Home = () => {
   const [greeting, setGreeting] = useState<string>("");
   const [displayAmount, setDisplayAmount] = useState<string>("");
   const [isNoneOption, setIsNoneOption] = useState<boolean>(true);
+  const [displayAmount, setDisplayAmount] = useState<string>("");
+  const [isNoneOption, setIsNoneOption] = useState<boolean>(true);
 
   const { targetNetwork } = useTargetNetwork();
 
@@ -111,6 +113,9 @@ const Home = () => {
     if (isNoneOption) {
       await setGreetingNoPayment();
     } else {
+    if (isNoneOption) {
+      await setGreetingNoPayment();
+    } else {
       await setGreetingWithPayment();
     }
   };
@@ -138,6 +143,7 @@ const Home = () => {
               <div className="p-4 bg-base-200 rounded-xl">
                 <h3 className="text-lg font-semibold mb-2">Current Greeting</h3>
                 <p className="text-xl font-medium break-all">
+                  {currentGreeting?.toString() ?? "No greeting set"}
                   {currentGreeting?.toString() ?? "No greeting set"}
                 </p>
               </div>
@@ -306,14 +312,95 @@ const Home = () => {
                     </label>
                   </div>
                 </div>
+                <div className="bg-base-200 p-4 rounded-xl border-2 border-secondary">
+                  <div className="flex flex-col space-y-4">
+                    {/* Some Option */}
+                    <label
+                      className="flex items-center gap-3 cursor-pointer"
+                      htmlFor="option-some"
+                    >
+                      <input
+                        id="option-some"
+                        className="radio radio-xs radio-secondary"
+                        type="radio"
+                        name="option-type"
+                        checked={!isNoneOption}
+                        onChange={() => setIsNoneOption(false)}
+                        aria-label="Select some amount option"
+                      />
+                      <div className="flex flex-col gap-1.5 w-full">
+                        <div className="flex items-center ml-2">
+                          <span className="text-xs font-medium mr-2 leading-none">
+                            Some amount
+                          </span>
+                        </div>
+                        <div className="flex bg-base-300 text-accent rounded-lg">
+                          <input
+                            type="number"
+                            className="input input-ghost focus:outline-none h-[2.2rem] min-h-[2.2rem] px-4 w-full text-xs placeholder:text-[#9596BF] text-neutral rounded-lg"
+                            value={displayAmount || ""}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              setDisplayAmount(value);
+                              if (value && value !== "") {
+                                try {
+                                  const amountInWei = BigInt(
+                                    Math.floor(Number(value) * 10 ** 18),
+                                  );
+                                  setInputAmount(amountInWei);
+                                } catch (error) {
+                                  console.error("Invalid number input:", error);
+                                }
+                              } else {
+                                setInputAmount(0n);
+                              }
+                              setIsNoneOption(false);
+                            }}
+                            placeholder="Enter amount"
+                            disabled={isNoneOption}
+                            autoComplete="off"
+                          />
+                        </div>
+                      </div>
+                    </label>
+
+                    {/* None Option */}
+                    <label
+                      className="flex items-center gap-3 cursor-pointer"
+                      htmlFor="option-none"
+                    >
+                      <input
+                        id="option-none"
+                        className="radio radio-xs radio-secondary"
+                        type="radio"
+                        name="option-type"
+                        checked={isNoneOption}
+                        onChange={() => setIsNoneOption(true)}
+                        aria-label="Select no amount option"
+                      />
+                      <div className="flex flex-col gap-1.5 w-full">
+                        <div className="flex items-center ml-2">
+                          <span className="text-xs font-medium mr-2 leading-none">
+                            No amount
+                          </span>
+                        </div>
+                        <div className="flex bg-base-300 text-accent h-[2.2rem] px-4 items-center rounded-lg">
+                          <span className="text-xs opacity-50">No value</span>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
               </div>
               <div className="form-control">
+                <label className="label" htmlFor="greeting-input">
                 <label className="label" htmlFor="greeting-input">
                   <span className="label-text text-lg font-medium">
                     Greeting Message
                   </span>
                 </label>
                 <input
+                  id="greeting-input"
                   id="greeting-input"
                   type="text"
                   className="input input-bordered input-lg text-lg"
