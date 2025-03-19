@@ -333,7 +333,6 @@ const Home = () => {
               </button>
             </div>
           </div>
-
           <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg">
             <h2 className="text-2xl font-bold mb-6 text-secondary">
               Transaction History
