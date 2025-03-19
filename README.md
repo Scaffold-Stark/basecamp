@@ -16,38 +16,45 @@ This tutorial guides students through building a decentralized application in th
 
 The tutorial is divided into the following steps:
 
-0. **Step 0: Scaffold Stark Base** ([branch: step-0](https://github.com/Scaffold-Stark/basecamp/tree/step-0))
-   - Starts from zero as a fresh clone of Scaffold-Stark
-   - At this step, let's showcase the basic UI layout and the contract layout with the `debug-ui` tab
-   - Play around with the `debug-ui` tab, sending transactions and reading values
-   - Create a basic UI layout with zero functionality. Share the code with the students and explain the structure of the code.
-   - [View changes from base to step-0](https://github.com/Scaffold-Stark/basecamp/compare/base...step-0)
+**Base: Scaffold Stark Base** ([branch: base](https://github.com/Scaffold-Stark/basecamp/tree/base))
 
-1. **Step 1: Basic Hooks Integration** ([branch: step-1](https://github.com/Scaffold-Stark/basecamp/tree/step-1))
-   - No contract updates needed, time to write integration logic for the UI
-   - Changes only in [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-1/packages/nextjs/app/page.tsx)
-   - Introduces core Scaffold-Stark hooks (`useScaffoldWriteContract`, `useScaffoldReadContract`, `useScaffoldMultiWriteContract`, `useTargetNetwork`, `useDeployedContractInfo`)
-   - Students can now interact with the contract using the hooks on the UI and deploy the contract and website to the network of their choice
-   - At this point we should showcase a `MAINNET` or `SEPOLIA` deployment
-   - At this point we should showcase a `VERCEL` deployment
-   - [View changes from step-0 to step-1](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1)
+- Starts from zero as a fresh clone of [Scaffold-Stark](https://github.com/Scaffold-Stark/scaffold-stark-2).
+- At this step, let's showcase the default UI layout and the contract layout with the `debug-ui` tab.
+- Play around with the `debug-ui` tab, sending transactions and reading values.
 
-2. **Step 2: Multi-Token Support** ([branch: step-2](https://github.com/Scaffold-Stark/basecamp/tree/step-2))
-   - Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/snfoundry/contracts/src/YourContract.cairo) to support STRK and ETH deposits
-   - Enhances [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/nextjs/app/page.tsx) with token selection and balance display
-   - Introduces `useScaffoldEventHistory` hook to fetch filtered events from the contract
-   - We don't need to showcase `MAINNET` or `SEPOLIA` deployment here nor `VERCEL` deployment
-   - At this point the user should be able to send STRK and ETH to the contract through our UI and see the events logged at the bottom.
-   - [View changes from step-1 to step-2](https://github.com/Scaffold-Stark/basecamp/compare/step-1...step-2)
+**Step 0: Basic UI** ([branch: step-0](https://github.com/Scaffold-Stark/basecamp/tree/step-0))
 
-3. **Step 3: Full zklend Integration** ([branch: step-3](https://github.com/Scaffold-Stark/basecamp/tree/step-3))
-   - Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-3/packages/snfoundry/contracts/src/YourContract.cairo) with [zklend](https://app.zklend.com/markets) integration
-   - All the STRK and ETH deposits are now sent to zklend for yield farming
-   - Introduces development on mainnet fork
-   - Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
-   - Includes mainnet deployment steps
-   - Users can send STRK and ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime
-   - [View changes from step-2 to step-3](https://github.com/Scaffold-Stark/basecamp/compare/step-2...step-3)
+- Create a basic UI layout with zero functionality. **Share the code with the students and explain the structure of the code.**
+- [View changes from base to step-0](https://github.com/Scaffold-Stark/basecamp/compare/base...step-0)
+
+**Step 1: Basic Hooks Integration** ([branch: step-1](https://github.com/Scaffold-Stark/basecamp/tree/step-1))
+
+- No contract updates needed, time to write integration logic for the UI
+- Changes only in [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-1/packages/nextjs/app/page.tsx)
+- Introduces core Scaffold-Stark hooks (`useScaffoldWriteContract`, `useScaffoldReadContract`, `useScaffoldMultiWriteContract`, `useTargetNetwork`, `useDeployedContractInfo`)
+- Students can now interact with the contract using the hooks on the UI and deploy the contract and website to the network of their choice
+- At this point we should showcase a `MAINNET` or `SEPOLIA` deployment
+- At this point we should showcase a `VERCEL` deployment. Can follow scaffold-stark [docs](https://docs.scaffoldstark.com/deploying) to deploy to vercel
+- [View changes from step-0 to step-1](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1)
+
+**Step 2: Multi-Token Support** ([branch: step-2](https://github.com/Scaffold-Stark/basecamp/tree/step-2))
+
+- Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/snfoundry/contracts/src/YourContract.cairo) to support STRK and ETH deposits
+- Enhances [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/nextjs/app/page.tsx) with token selection and balance display
+- Introduces `useScaffoldEventHistory` hook to fetch filtered events from the contract
+- We don't need to showcase `MAINNET` or `SEPOLIA` deployment here nor `VERCEL` deployment
+- At this point the user should be able to send STRK and ETH to the contract through our UI and see the events logged at the bottom.
+- [View changes from step-1 to step-2](https://github.com/Scaffold-Stark/basecamp/compare/step-1...step-2)
+
+**Step 3: Full zklend Integration** ([branch: step-3](https://github.com/Scaffold-Stark/basecamp/tree/step-3))
+
+- Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-3/packages/snfoundry/contracts/src/YourContract.cairo) with [zklend](https://app.zklend.com/markets) integration
+- All the STRK and ETH deposits are now sent to zklend for yield farming
+- Introduces development on mainnet fork
+- Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
+- Includes mainnet deployment steps
+- Users can send STRK and ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime
+- [View changes from step-2 to step-3](https://github.com/Scaffold-Stark/basecamp/compare/step-2...step-3)
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
 
@@ -58,7 +65,7 @@ Each step builds upon the previous one, introducing new concepts and features wh
    Students should clone the scaffold-stark-2 repository and install the dependencies.
 
    ```bash
-   git clone <https://github.com/Scaffold-Stark/scaffold-stark-2.git>
+   git clone https://github.com/Scaffold-Stark/scaffold-stark-2.git
    cd scaffold-stark-2
    yarn install
    ```
