@@ -24,7 +24,7 @@ The tutorial is divided into the following steps:
 
 **Step 0: Basic UI** ([branch: step-0](https://github.com/Scaffold-Stark/basecamp/tree/step-0))
 
-- Create a basic UI layout with zero functionality. **Share the code with the students and explain the structure of the code.**
+- Creates a basic UI layout with zero functionality. **Share the code with the students and explain the structure of the code.**
 - [View changes from base to step-0](https://github.com/Scaffold-Stark/basecamp/compare/base...step-0)
 
 **Step 1: Basic Hooks Integration** ([branch: step-1](https://github.com/Scaffold-Stark/basecamp/tree/step-1))
