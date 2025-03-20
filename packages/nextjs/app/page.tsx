@@ -241,27 +241,31 @@ const Home = () => {
             </div>
           </div>
           {/* <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg">
-				<h2 className="text-2xl font-bold mb-6 text-secondary">
-				  Transaction History
-				</h2>
-				<div className="space-y-4">
-				  {events?.map((event, index) => (
-					<div key={index} className="p-4 bg-base-200 rounded-xl">
-					  <p className="text-lg">
-						Set Greeting to {event.args.new_greeting}
-						{event.args.value > 0n && (
-						  <span className="ml-2 text-primary">
-							with {(Number(event.args.value) / 10 ** 18).toFixed(6)}
-							{event.args.token === BigInt(EthContract?.address || "")
-							  ? " ETH"
-							  : " STRK"}
-						  </span>
-						)}
-					  </p>
-					</div>
-				  ))}
-				</div>
-			  </div> */}
+            <h2 className="text-2xl font-bold mb-6 text-secondary">
+              Transaction History
+            </h2>
+            <div className="space-y-4">
+              {events?.map((event, index) => (
+                <div key={index} className="p-4 bg-base-200 rounded-xl">
+                  <p className="text-lg">
+                    Set Greeting to {event.args.new_greeting}
+                    {event.args.value.unwrap() > 0n && (
+                      <span className="ml-2 text-primary">
+                        with{" "}
+                        {(Number(event.args.value.unwrap()) / 10 ** 18).toFixed(
+                          6,
+                        )}
+                        {event.args.token.unwrap() ===
+                        BigInt(EthContract?.address || "")
+                          ? " ETH"
+                          : " STRK"}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div> */}
         </div>
       </div>
     </div>
