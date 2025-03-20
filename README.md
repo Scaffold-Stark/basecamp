@@ -50,10 +50,10 @@ The tutorial is divided into the following steps:
 
 - Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-3/packages/snfoundry/contracts/src/YourContract.cairo) with [zklend](https://app.zklend.com/markets) integration
 - All the STRK and ETH deposits are now sent to zklend for yield farming
-- Introduces development on mainnet fork
+- Introduces development on mainnet fork. Can follow scaffold-stark [docs](https://docs.scaffoldstark.com/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
 - Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
 - Includes mainnet deployment steps
-- Users can send STRK and ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime
+- Users can send STRK and ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime. User can connect with `burner wallet` to interact with the contract on Starknet mainnet fork.
 - [View changes from step-2 to step-3](https://github.com/Scaffold-Stark/basecamp/compare/step-2...step-3)
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
@@ -103,7 +103,7 @@ Each step builds upon the previous one, introducing new concepts and features wh
 
 4. **Development Guide**
    - Start with a fresh clone of the scaffold-stark-2 repository
-   - Look at the basecamp repository. Begin with `step-0` branch which provides the basic layout. Students can copy the code from the basecamp repository to the scaffold-stark-2 repository.
+   - Look at the basecamp repository. Begin with `base` branch, then move into `step-0` branch which provides the basic layout. Students can copy the code from the basecamp repository to the scaffold-stark-2 repository.
    - Compare with [base to step-0 changes](https://github.com/Scaffold-Stark/basecamp/compare/base...step-0) to see what needs to be implemented/copied.
    - Open `packages/nextjs/app/page.tsx` in your editor
    - Compare with [step-0 to step-1 changes](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1) to see what needs to be implemented
