@@ -39,21 +39,21 @@ The tutorial is divided into the following steps:
 
 **Step 2: Multi-Token Support** ([branch: step-2](https://github.com/Scaffold-Stark/basecamp/tree/step-2))
 
-- Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/snfoundry/contracts/src/YourContract.cairo) to support STRK and ETH deposits
+- Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/snfoundry/contracts/src/YourContract.cairo) to support STRK deposits
 - Enhances [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/nextjs/app/page.tsx) with token selection and balance display
 - Introduces `useScaffoldEventHistory` hook to fetch filtered events from the contract
 - We don't need to showcase `MAINNET` or `SEPOLIA` deployment here nor `VERCEL` deployment
-- At this point the user should be able to send STRK and ETH to the contract through our UI and see the events logged at the bottom.
+- At this point the user should be able to send STRK to the contract through our UI and see the events logged at the bottom.
 - [View changes from step-1 to step-2](https://github.com/Scaffold-Stark/basecamp/compare/step-1...step-2)
 
 **Step 3: Full zklend Integration** ([branch: step-3](https://github.com/Scaffold-Stark/basecamp/tree/step-3))
 
 - Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-3/packages/snfoundry/contracts/src/YourContract.cairo) with [zklend](https://app.zklend.com/markets) integration
-- All the STRK and ETH deposits are now sent to zklend for yield farming
+- All the STRK deposits are now sent to zklend for yield farming
 - Introduces development on mainnet fork. Can follow scaffold-stark [docs](https://docs.scaffoldstark.com/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
 - Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
 - Includes mainnet deployment steps
-- Users can send STRK and ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime. User can connect with `burner wallet` to interact with the contract on Starknet mainnet fork.
+- Users can send STRK along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime. User can connect with `burner wallet` to interact with the contract on Starknet mainnet fork.
 - [View changes from step-2 to step-3](https://github.com/Scaffold-Stark/basecamp/compare/step-2...step-3)
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
