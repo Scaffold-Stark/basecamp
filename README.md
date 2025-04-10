@@ -125,19 +125,19 @@ git clone git@github.com:Scaffold-Stark/basecamp.git basecamp-temp && cd basecam
 To update each step with changes from the previous step:
 
 ```bash
-git checkout step-0 && git merge base --no-edit && git push origin step-0
+git checkout step-0 && git pull origin step-0 && git merge base --no-edit && git push origin step-0
 ```
 
 ```bash
-git checkout step-1 && git merge step-0 --no-edit && git push origin step-1
+git checkout step-1 && git pull origin step-1 && git merge step-0 --no-edit && git push origin step-1
 ```
 
 ```bash
-git checkout step-2 && git merge step-1 --no-edit && git push origin step-2
+git checkout step-2 && git pull origin step-2 && git merge step-1 --no-edit && git push origin step-2
 ```
 
 ```bash
-git checkout step-3 && git merge step-2 --no-edit && git push origin step-3
+git checkout step-3 && git pull origin step-3 && git merge step-2 --no-edit && git push origin step-3
 ```
 
 This process will:
