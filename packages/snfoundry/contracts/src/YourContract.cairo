@@ -24,12 +24,12 @@ pub trait IZklendMarket<TContractState> {
 pub mod YourContract {
     use openzeppelin_access::ownable::OwnableComponent;
     use openzeppelin_token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
-    use starknet::storage::{Map, StorageMapReadAccess, StorageMapWriteAccess};
-    use starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess};
-    use starknet::{ContractAddress, contract_address_const};
-    use starknet::{get_caller_address, get_contract_address};
-    use super::{IYourContract, IZklendMarketDispatcher, IZklendMarketDispatcherTrait};
-
+    use starknet::storage::{
+        Map, StorageMapReadAccess, StorageMapWriteAccess, StoragePointerReadAccess,
+        StoragePointerWriteAccess,
+    };
+    use starknet::{ContractAddress, get_caller_address, get_contract_address};
+    use super::IYourContract;
 
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
 
@@ -162,11 +162,11 @@ pub mod YourContract {
         fn withdraw(ref self: ContractState) {
             self.ownable.assert_only_owner();
             self._withdraw_all_tokens_from_zklend();
+            let eth_contract_address = ETH_CONTRACT_ADDRESS.try_into().unwrap();
+            let strk_contract_address = STRK_CONTRACT_ADDRESS.try_into().unwrap();
 
-            let eth_dispatcher = self
-                ._get_token_dispatcher(contract_address_const::<ETH_CONTRACT_ADDRESS>());
-            let strk_dispatcher = self
-                ._get_token_dispatcher(contract_address_const::<STRK_CONTRACT_ADDRESS>());
+            let eth_dispatcher = self._get_token_dispatcher(eth_contract_address);
+            let strk_dispatcher = self._get_token_dispatcher(strk_contract_address);
 
             let eth_balance = eth_dispatcher.balance_of(get_contract_address());
             let strk_balance = strk_dispatcher.balance_of(get_contract_address());
@@ -234,8 +234,8 @@ pub mod YourContract {
         ) {
             if let Option::Some(token) = option_token {
                 assert(
-                    token == contract_address_const::<STRK_CONTRACT_ADDRESS>()
-                        || token == contract_address_const::<ETH_CONTRACT_ADDRESS>(),
+                    token == STRK_CONTRACT_ADDRESS.try_into().unwrap()
+                        || token == ETH_CONTRACT_ADDRESS.try_into().unwrap(),
                     'Unsupported token',
                 );
             }
