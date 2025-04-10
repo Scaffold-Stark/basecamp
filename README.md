@@ -53,7 +53,7 @@ The tutorial is divided into the following steps:
 - Introduces development on mainnet fork. Can follow scaffold-stark [docs](https://docs.scaffoldstark.com/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
 - Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
 - Includes mainnet deployment steps
-- Users can send STRK and ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime. User can connect with `burner wallet` to interact with the contract on Starknet mainnet fork.
+- Users can send STRK or ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime. User can connect with `burner wallet` to interact with the contract on Starknet mainnet fork.
 - [View changes from step-2 to step-3](https://github.com/Scaffold-Stark/basecamp/compare/step-2...step-3)
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
@@ -125,19 +125,19 @@ git clone git@github.com:Scaffold-Stark/basecamp.git basecamp-temp && cd basecam
 To update each step with changes from the previous step:
 
 ```bash
-git checkout step-0 && git merge base --no-edit && git push origin step-0
+git checkout step-0 && git pull origin step-0 && git merge base --no-edit && git push origin step-0
 ```
 
 ```bash
-git checkout step-1 && git merge step-0 --no-edit && git push origin step-1
+git checkout step-1 && git pull origin step-1 && git merge step-0 --no-edit && git push origin step-1
 ```
 
 ```bash
-git checkout step-2 && git merge step-1 --no-edit && git push origin step-2
+git checkout step-2 && git pull origin step-2 && git merge step-1 --no-edit && git push origin step-2
 ```
 
 ```bash
-git checkout step-3 && git merge step-2 --no-edit && git push origin step-3
+git checkout step-3 && git pull origin step-3 && git merge step-2 --no-edit && git push origin step-3
 ```
 
 This process will:
