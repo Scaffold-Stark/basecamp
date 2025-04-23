@@ -31,9 +31,9 @@ pub mod YourContract {
     impl OwnableImpl = OwnableComponent::OwnableImpl<ContractState>;
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
 
-    pub const ETH_CONTRACT_ADDRESS: felt252 =
+    pub const FELT_ETH_CONTRACT: felt252 =
         0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7;
-    pub const STRK_CONTRACT_ADDRESS: felt252 =
+    pub const FELT_STRK_CONTRACT: felt252 =
         0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d;
 
     #[event]
@@ -142,8 +142,8 @@ pub mod YourContract {
 
         fn withdraw(ref self: ContractState) {
             self.ownable.assert_only_owner();
-            let eth_contract_address = ETH_CONTRACT_ADDRESS.try_into().unwrap();
-            let strk_contract_address = STRK_CONTRACT_ADDRESS.try_into().unwrap();
+            let eth_contract_address = FELT_ETH_CONTRACT.try_into().unwrap();
+            let strk_contract_address = FELT_STRK_CONTRACT.try_into().unwrap();
 
             let eth_dispatcher = self._get_token_dispatcher(eth_contract_address);
             let strk_dispatcher = self._get_token_dispatcher(strk_contract_address);
@@ -172,8 +172,8 @@ pub mod YourContract {
         ) {
             if let Option::Some(token) = option_token {
                 assert(
-                    token == STRK_CONTRACT_ADDRESS.try_into().unwrap()
-                        || token == ETH_CONTRACT_ADDRESS.try_into().unwrap(),
+                    token == FELT_STRK_CONTRACT.try_into().unwrap()
+                        || token == FELT_ETH_CONTRACT.try_into().unwrap(),
                     'Unsupported token',
                 );
             }
