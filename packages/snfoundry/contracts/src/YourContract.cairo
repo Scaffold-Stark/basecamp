@@ -29,7 +29,7 @@ pub mod YourContract {
         StoragePointerWriteAccess,
     };
     use starknet::{ContractAddress, get_caller_address, get_contract_address};
-    use super::IYourContract;
+    use super::{IYourContract, IZklendMarketDispatcher, IZklendMarketDispatcherTrait};
 
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
 
@@ -37,9 +37,9 @@ pub mod YourContract {
     impl OwnableImpl = OwnableComponent::OwnableImpl<ContractState>;
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
 
-    pub const ETH_CONTRACT_ADDRESS: felt252 =
+    pub const FELT_ETH_CONTRACT: felt252 =
         0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7;
-    pub const STRK_CONTRACT_ADDRESS: felt252 =
+    pub const FELT_STRK_CONTRACT: felt252 =
         0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d;
     const ZKLEND_MARKET: felt252 =
         0x04c0a5193d58f74fbace4b74dcf65481e734ed1714121bdc571da345540efa05;
@@ -83,11 +83,7 @@ pub mod YourContract {
         // setup dispatchers
         self
             .zklend_dispatcher
-            .write(
-                IZklendMarketDispatcher {
-                    contract_address: contract_address_const::<ZKLEND_MARKET>(),
-                },
-            );
+            .write(IZklendMarketDispatcher { contract_address: ZKLEND_MARKET.try_into().unwrap() });
     }
 
     #[abi(embed_v0)]
@@ -162,8 +158,8 @@ pub mod YourContract {
         fn withdraw(ref self: ContractState) {
             self.ownable.assert_only_owner();
             self._withdraw_all_tokens_from_zklend();
-            let eth_contract_address = ETH_CONTRACT_ADDRESS.try_into().unwrap();
-            let strk_contract_address = STRK_CONTRACT_ADDRESS.try_into().unwrap();
+            let eth_contract_address = FELT_ETH_CONTRACT.try_into().unwrap();
+            let strk_contract_address = FELT_STRK_CONTRACT.try_into().unwrap();
 
             let eth_dispatcher = self._get_token_dispatcher(eth_contract_address);
             let strk_dispatcher = self._get_token_dispatcher(strk_contract_address);
@@ -185,10 +181,9 @@ pub mod YourContract {
         }
 
         fn _deposit_all_tokens_to_zklend(ref self: ContractState) {
-            let eth_dispatcher = self
-                ._get_token_dispatcher(contract_address_const::<ETH_CONTRACT_ADDRESS>());
+            let eth_dispatcher = self._get_token_dispatcher(FELT_ETH_CONTRACT.try_into().unwrap());
             let strk_dispatcher = self
-                ._get_token_dispatcher(contract_address_const::<STRK_CONTRACT_ADDRESS>());
+                ._get_token_dispatcher(FELT_STRK_CONTRACT.try_into().unwrap());
 
             let eth_balance = eth_dispatcher.balance_of(get_contract_address());
             let strk_balance = strk_dispatcher.balance_of(get_contract_address());
@@ -197,14 +192,14 @@ pub mod YourContract {
             let strk_balance_felt: felt252 = strk_balance.try_into().expect('Amount too large');
 
             if eth_balance > 0 {
-                eth_dispatcher.approve(contract_address_const::<ZKLEND_MARKET>(), eth_balance);
+                eth_dispatcher.approve(ZKLEND_MARKET.try_into().unwrap(), eth_balance);
                 self
                     .zklend_dispatcher
                     .read()
                     .deposit(eth_dispatcher.contract_address, eth_balance_felt);
             }
             if strk_balance > 0 {
-                strk_dispatcher.approve(contract_address_const::<ZKLEND_MARKET>(), strk_balance);
+                strk_dispatcher.approve(ZKLEND_MARKET.try_into().unwrap(), strk_balance);
                 self
                     .zklend_dispatcher
                     .read()
@@ -213,19 +208,13 @@ pub mod YourContract {
         }
 
         fn _withdraw_all_tokens_from_zklend(ref self: ContractState) {
-            if self.token_deposits.read(contract_address_const::<STRK_CONTRACT_ADDRESS>()) > 0 {
-                self
-                    .zklend_dispatcher
-                    .read()
-                    .withdraw_all(contract_address_const::<STRK_CONTRACT_ADDRESS>());
-                self.token_deposits.write(contract_address_const::<STRK_CONTRACT_ADDRESS>(), 0);
+            if self.token_deposits.read(FELT_STRK_CONTRACT.try_into().unwrap()) > 0 {
+                self.zklend_dispatcher.read().withdraw_all(FELT_STRK_CONTRACT.try_into().unwrap());
+                self.token_deposits.write(FELT_STRK_CONTRACT.try_into().unwrap(), 0);
             }
-            if self.token_deposits.read(contract_address_const::<ETH_CONTRACT_ADDRESS>()) > 0 {
-                self
-                    .zklend_dispatcher
-                    .read()
-                    .withdraw_all(contract_address_const::<ETH_CONTRACT_ADDRESS>());
-                self.token_deposits.write(contract_address_const::<ETH_CONTRACT_ADDRESS>(), 0);
+            if self.token_deposits.read(FELT_ETH_CONTRACT.try_into().unwrap()) > 0 {
+                self.zklend_dispatcher.read().withdraw_all(FELT_ETH_CONTRACT.try_into().unwrap());
+                self.token_deposits.write(FELT_ETH_CONTRACT.try_into().unwrap(), 0);
             }
         }
 
@@ -234,8 +223,8 @@ pub mod YourContract {
         ) {
             if let Option::Some(token) = option_token {
                 assert(
-                    token == STRK_CONTRACT_ADDRESS.try_into().unwrap()
-                        || token == ETH_CONTRACT_ADDRESS.try_into().unwrap(),
+                    token == FELT_STRK_CONTRACT.try_into().unwrap()
+                        || token == FELT_ETH_CONTRACT.try_into().unwrap(),
                     'Unsupported token',
                 );
             }
