@@ -34,7 +34,7 @@ The tutorial is divided into the following steps:
 - Introduces core Scaffold-Stark hooks (`useScaffoldWriteContract`, `useScaffoldReadContract`, `useScaffoldMultiWriteContract`, `useTargetNetwork`, `useDeployedContractInfo`)
 - Students can now interact with the contract using the hooks on the UI and deploy the contract and website to the network of their choice
 - At this point we should showcase a `MAINNET` or `SEPOLIA` deployment
-- At this point we should showcase a `VERCEL` deployment. Can follow scaffold-stark [docs](https://docs.scaffoldstark.com/deploying) to deploy to vercel
+- At this point we should showcase a `VERCEL` deployment. Can follow scaffold-stark [docs](https://scaffoldstark.com/docs/deploying) to deploy to vercel
 - [View changes from step-0 to step-1](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1)
 
 **Step 2: Multi-Token Support** ([branch: step-2](https://github.com/Scaffold-Stark/basecamp/tree/step-2))
