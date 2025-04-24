@@ -34,12 +34,13 @@ The tutorial is divided into the following steps:
 - Introduces core Scaffold-Stark hooks (`useScaffoldWriteContract`, `useScaffoldReadContract`, `useScaffoldMultiWriteContract`, `useTargetNetwork`, `useDeployedContractInfo`)
 - Students can now interact with the contract using the hooks on the UI and deploy the contract and website to the network of their choice
 - At this point we should showcase a `MAINNET` or `SEPOLIA` deployment
-- At this point we should showcase a `VERCEL` deployment. Can follow scaffold-stark [docs](https://docs.scaffoldstark.com/deploying) to deploy to vercel
+- At this point we should showcase a `VERCEL` deployment. Can follow scaffold-stark [docs](https://scaffoldstark.com/docs/deploying) to deploy to vercel
 - [View changes from step-0 to step-1](https://github.com/Scaffold-Stark/basecamp/compare/step-0...step-1)
 
 **Step 2: Multi-Token Support** ([branch: step-2](https://github.com/Scaffold-Stark/basecamp/tree/step-2))
 
-- Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/snfoundry/contracts/src/YourContract.cairo) to support STRK and ETH deposits
+- Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/snfoundry/contracts/src/YourContract.cairo) to support STRK and ETH deposits.
+- Use `Configure Contracts` tool to download the ERC20 contract for ETH. Inputs are: Contract Name: `Eth`, Contract Address: `0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7`. Replace your local `configExternalContracts.ts` with the new downloaded file. You can find this tool next to the `faucet` button.
 - Enhances [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/nextjs/app/page.tsx) with token selection and balance display
 - Introduces `useScaffoldEventHistory` hook to fetch filtered events from the contract
 - We don't need to showcase `MAINNET` or `SEPOLIA` deployment here nor `VERCEL` deployment
@@ -50,7 +51,7 @@ The tutorial is divided into the following steps:
 
 - Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-3/packages/snfoundry/contracts/src/YourContract.cairo) with [zklend](https://app.zklend.com/markets) integration
 - All the STRK and ETH deposits are now sent to zklend for yield farming
-- Introduces development on mainnet fork. Can follow scaffold-stark [docs](https://docs.scaffoldstark.com/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
+- Introduces development on mainnet fork. Can follow scaffold-stark [docs](https://scaffoldstark.com/docs/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
 - Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
 - Includes mainnet deployment steps
 - Users can send STRK or ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime. User can connect with `burner wallet` to interact with the contract on Starknet mainnet fork.
