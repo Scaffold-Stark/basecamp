@@ -11,7 +11,7 @@ import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
 import { CairoOption, CairoOptionVariant } from "starknet";
 
 const Home = () => {
-  const [selectedToken] = useState<"ETH">("ETH");
+  const [selectedToken] = useState<"STRK">("STRK");
   const [inputAmount, setInputAmount] = useState<bigint>(0n);
   const [greeting, setGreeting] = useState<string>("");
   const [displayAmount, setDisplayAmount] = useState<string>("");
@@ -81,28 +81,28 @@ const Home = () => {
                 contract owner.
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-base-300 rounded-lg">
+                {/* <div className="p-4 bg-base-300 rounded-lg">
                   <span className="block text-sm opacity-70">
                     Available ETH
                   </span>
                   <span className="text-xl font-medium">
-                    {/* {ethBalance
+                    {ethBalance
 						  ? (Number(ethBalance) / 10 ** 18).toFixed(6)
-						  : "0.000000"}{" "} */}
+						  : "0.000000"}{" "}
                     ETH
                   </span>
-                </div>
-                {/* <div className="p-4 bg-base-300 rounded-lg">
+                </div> */}
+                 <div className="p-4 bg-base-300 rounded-lg">
 					  <span className="block text-sm opacity-70">
 						Available STRK
 					  </span>
 					  <span className="text-xl font-medium">
-						{strkBalance
+						{/*{strkBalance
 						  ? (Number(strkBalance) / 10 ** 18).toFixed(6)
-						  : "0.000000"}{" "}
+						  : "0.000000"}{" "}*/}
 						STRK
 					  </span>
-					</div> */}
+					</div> 
               </div>
             </div>
           </div>
