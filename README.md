@@ -39,7 +39,8 @@ The tutorial is divided into the following steps:
 
 **Step 2: Multi-Token Support** ([branch: step-2](https://github.com/Scaffold-Stark/basecamp/tree/step-2))
 
-- Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/snfoundry/contracts/src/YourContract.cairo) to support STRK and ETH deposits
+- Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/snfoundry/contracts/src/YourContract.cairo) to support STRK and ETH deposits.
+- Use `Configure Contracts` tool to download the ERC20 contract for ETH. Inputs are: Contract Name: `Eth`, Contract Address: `0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7`. Replace your local `configExternalContracts.ts` with the new downloaded file. You can find this tool next to the `faucet` button.
 - Enhances [`page.tsx`](https://github.com/Scaffold-Stark/basecamp/blob/step-2/packages/nextjs/app/page.tsx) with token selection and balance display
 - Introduces `useScaffoldEventHistory` hook to fetch filtered events from the contract
 - We don't need to showcase `MAINNET` or `SEPOLIA` deployment here nor `VERCEL` deployment
