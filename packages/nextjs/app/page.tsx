@@ -256,9 +256,9 @@ const Home = () => {
                           6,
                         )}
                         {event.args.token.unwrap() ===
-                        BigInt(EthContract?.address || "")
-                          ? " ETH"
-                          : " STRK"}
+                        BigInt(StrkContract?.address || "")
+                          ? " STRK"
+                          : " ETH"}
                       </span>
                     )}
                   </p>
