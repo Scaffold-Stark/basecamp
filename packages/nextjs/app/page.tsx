@@ -173,14 +173,14 @@ const Home = () => {
                 contract owner.
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                 <div className="p-4 bg-base-300 rounded-lg">
+                <div className="p-4 bg-base-300 rounded-lg">
                   <span className="block text-sm opacity-70">
                     Available ETH
                   </span>
                   <span className="text-xl font-medium">
                     {ethBalance
-						  ? (Number(ethBalance) / 10 ** 18).toFixed(6)
-						  : "0.000000"}{" "}
+                      ? (Number(ethBalance) / 10 ** 18).toFixed(6)
+                      : "0.000000"}{" "}
                     ETH
                   </span>
                 </div>
