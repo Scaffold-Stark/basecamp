@@ -11,7 +11,7 @@ import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
 import { CairoOption, CairoOptionVariant } from "starknet";
 
 const Home = () => {
-  const [selectedToken] = useState<"ETH">("ETH");
+  const [selectedToken] = useState<"STRK">("STRK");
   const [inputAmount, setInputAmount] = useState<bigint>(0n);
   const [greeting, setGreeting] = useState<string>("");
   const [displayAmount, setDisplayAmount] = useState<string>("");
@@ -20,7 +20,7 @@ const Home = () => {
   const { targetNetwork } = useTargetNetwork();
 
   const { data: YourContract } = useDeployedContractInfo("YourContract");
-  const { data: EthContract } = useDeployedContractInfo("Eth");
+  const { data: StrkContract } = useDeployedContractInfo("Strk");
 
   const { data: currentGreeting } = useScaffoldReadContract({
     contractName: "YourContract",
@@ -32,8 +32,8 @@ const Home = () => {
     functionName: "premium",
   });
 
-  const { data: ethBalance } = useScaffoldReadContract({
-    contractName: "Eth",
+  const { data: strkBalance } = useScaffoldReadContract({
+    contractName: "Strk",
     functionName: "balance_of",
     args: [YourContract?.address],
   });
@@ -61,7 +61,7 @@ const Home = () => {
   const { sendAsync: setGreetingWithPayment } = useScaffoldMultiWriteContract({
     calls: [
       {
-        contractName: "Eth",
+        contractName: "Strk",
         functionName: "approve",
         args: [YourContract?.address, someOption.unwrap()],
       },
@@ -139,28 +139,28 @@ const Home = () => {
                 contract owner.
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-base-300 rounded-lg">
+                {/* <div className="p-4 bg-base-300 rounded-lg">
                   <span className="block text-sm opacity-70">
                     Available ETH
                   </span>
                   <span className="text-xl font-medium">
                     {ethBalance
-                      ? (Number(ethBalance) / 10 ** 18).toFixed(6)
-                      : "0.000000"}{" "}
+						  ? (Number(ethBalance) / 10 ** 18).toFixed(6)
+						  : "0.000000"}{" "}
                     ETH
                   </span>
+                </div> */}
+                <div className="p-4 bg-base-300 rounded-lg">
+                  <span className="block text-sm opacity-70">
+                    Available STRK
+                  </span>
+                  <span className="text-xl font-medium">
+                    {strkBalance
+                      ? (Number(strkBalance) / 10 ** 18).toFixed(6)
+                      : "0.000000"}{" "}
+                    STRK
+                  </span>
                 </div>
-                {/* <div className="p-4 bg-base-300 rounded-lg">
-					  <span className="block text-sm opacity-70">
-						Available STRK
-					  </span>
-					  <span className="text-xl font-medium">
-						{strkBalance
-						  ? (Number(strkBalance) / 10 ** 18).toFixed(6)
-						  : "0.000000"}{" "}
-						STRK
-					  </span>
-					</div> */}
               </div>
             </div>
           </div>
@@ -314,9 +314,9 @@ const Home = () => {
                           6,
                         )}
                         {event.args.token.unwrap() ===
-                        BigInt(EthContract?.address || "")
-                          ? " ETH"
-                          : " STRK"}
+                        BigInt(StrkContract?.address || "")
+                          ? " STRK"
+                          : " ETH"}
                       </span>
                     )}
                   </p>
