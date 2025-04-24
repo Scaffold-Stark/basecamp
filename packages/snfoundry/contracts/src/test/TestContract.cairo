@@ -1,10 +1,9 @@
-use contracts::YourContract::{
-    IYourContractDispatcher, IYourContractDispatcherTrait, YourContract::STRK_CONTRACT_ADDRESS,
-};
+use contracts::YourContract::YourContract::STRK_CONTRACT_ADDRESS;
+use contracts::YourContract::{IYourContractDispatcher, IYourContractDispatcherTrait};
 use openzeppelin_token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
 use openzeppelin_utils::serde::SerializedAppend;
 use snforge_std::{CheatSpan, ContractClassTrait, DeclareResultTrait, cheat_caller_address, declare};
-use starknet::{ContractAddress};
+use starknet::ContractAddress;
 
 // Real contract address deployed on Sepolia
 const OWNER: felt252 = 0x02dA5254690b46B9C4059C25366D1778839BE63C142d899F0306fd5c312A5918;
