@@ -50,7 +50,7 @@ The tutorial is divided into the following steps:
 
 - Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-3/packages/snfoundry/contracts/src/YourContract.cairo) with [zklend](https://app.zklend.com/markets) integration
 - All the STRK and ETH deposits are now sent to zklend for yield farming
-- Introduces development on mainnet fork. Can follow scaffold-stark [docs](https://docs.scaffoldstark.com/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
+- Introduces development on mainnet fork. Can follow scaffold-stark [docs](https://scaffoldstark.com/docs/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
 - Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
 - Includes mainnet deployment steps
 - Users can send STRK or ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime. User can connect with `burner wallet` to interact with the contract on Starknet mainnet fork.
