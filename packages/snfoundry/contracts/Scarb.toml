@@ -12,8 +12,8 @@ openzeppelin_token = "1.0.0"
 
 [dev-dependencies]
 openzeppelin_utils = "1.0.0"
-openzeppelin_testing = "3.0.0"
-snforge_std = "0.41.0"
+openzeppelin_testing = "4.1.0"
+snforge_std = "0.44.0"
 
 [[target.starknet-contract]]
 casm = true # taggle this to `false` to speed up compilation/script tests
@@ -35,3 +35,6 @@ block_id.tag = "latest"
 name = "MAINNET_LATEST"
 url = "https://starknet-mainnet.public.blastapi.io/rpc/v0_8"
 block_id.number = "1028886"
+
+[tool]
+panic-backtrace = true
