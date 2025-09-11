@@ -52,7 +52,7 @@ const Home = () => {
 
   const { data: events } = useScaffoldEventHistory({
     contractName: "YourContract",
-    eventName: "contracts::YourContract::YourContract::GreetingChanged",
+    eventName: "GreetingChanged",
     fromBlock: lastBlock ? (lastBlock > 50n ? BigInt(lastBlock - 50) : 0n) : 0n,
     watch: true,
   });
