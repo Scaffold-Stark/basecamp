@@ -4,6 +4,7 @@ import {
   InvokeFunctionResponse,
   constants,
   Call,
+  ETransactionVersion,
 } from "starknet";
 import { getBlockExplorerTxLink, notification } from "~~/utils/scaffold-stark";
 import { useTargetNetwork } from "./useTargetNetwork";
@@ -26,9 +27,6 @@ interface UseTransactorReturn {
   sendTransactionInstance: UseSendTransactionResult;
 }
 
-/**
- * Custom notification content for TXs.
- */
 const TxnNotification = ({
   message,
   blockExplorerLink,
@@ -54,9 +52,17 @@ const TxnNotification = ({
 };
 
 /**
- * Runs Transaction passed in to returned function showing UI feedback.
- * @param _walletClient - Optional wallet client to use. If not provided, will use the one from useWalletClient.
- * @returns An object with the writeTransaction function, transaction status, and other transaction-related properties
+ * Handles sending transactions to Starknet contracts with comprehensive UI feedback and state management.
+ * This hook provides a complete transaction experience including fee estimation, notifications,
+ * transaction state tracking, and block explorer integration. It supports both prepared transactions
+ * (using starknet-react's sendTransaction) and direct execution with automatic fee estimation.
+ *
+ * @param _walletClient - Optional wallet client to use. If not provided, will use the connected account from useAccount
+ * @returns {UseTransactorReturn} An object containing:
+ *   - writeTransaction: (tx: Call[], withSendTransaction?: boolean) => Promise<string | undefined> - Async function that sends transactions with fee estimation, notifications, and state management
+ *   - transactionReceiptInstance: UseTransactionReceiptResult - Transaction receipt data and status from useTransactionReceipt
+ *   - sendTransactionInstance: UseSendTransactionResult - Send transaction state and methods from useSendTransaction
+ * @see {@link https://scaffoldstark.com/docs/hooks/useTransactor}
  */
 export const useTransactor = (
   _walletClient?: AccountInterface,
@@ -78,6 +84,8 @@ export const useTransactor = (
   );
   const transactionReceiptInstance = useTransactionReceipt({
     hash: transactionHash,
+    enabled: !!transactionHash,
+    watch: true,
   });
   const { data: txResult, status: txStatus } = transactionReceiptInstance;
 
@@ -145,7 +153,7 @@ export const useTransactor = (
 
           // Set RPC 0.8 compatible parameters with estimated fees
           const txOptions = {
-            version: constants.TRANSACTION_VERSION.V3,
+            version: ETransactionVersion.V3,
             maxFee: "0x" + maxFee.toString(16),
           };
 
@@ -159,24 +167,23 @@ export const useTransactor = (
 
           // Fallback to safe default values if estimation fails
           const txOptions = {
-            version: constants.TRANSACTION_VERSION.V3,
+            version: ETransactionVersion.V3,
             // Use a reasonable maxFee value that won't exceed account balance
             maxFee: "0x1000000000",
             // Set resource bounds for RPC 0.8 compatibility
             resourceBounds: {
               l1_gas: {
-                max_amount: "0x1000000",
-                max_price_per_unit: "0x1",
+                max_amount: 0x1000000n,
+                max_price_per_unit: 0x1n,
               },
               l2_gas: {
-                max_amount: "0x1000000",
-                max_price_per_unit: "0x1",
+                max_amount: 0x1000000n,
+                max_price_per_unit: 0x1n,
               },
-            },
-            // Add l1_data_gas field for RPC 0.8 compatibility
-            l1_data_gas: {
-              max_amount: "0x1000000",
-              max_price_per_unit: "0x1",
+              l1_data_gas: {
+                max_amount: 0x1000000n,
+                max_price_per_unit: 0x1n,
+              },
             },
           };
 
