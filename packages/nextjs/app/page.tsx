@@ -52,7 +52,7 @@ const Home = () => {
 
   const { data: events } = useScaffoldEventHistory({
     contractName: "YourContract",
-    eventName: "contracts::YourContract::YourContract::GreetingChanged",
+    eventName: "GreetingChanged",
     fromBlock: 1028886n, // NOTE : For now keep this block number as it is. When running local mainnet fork, use this block number as the starting block number. For example: `yarn chain --fork-network https://starknet-mainnet.public.blastapi.io/rpc/v0_7 --fork-block 1028886`
     watch: true,
   });

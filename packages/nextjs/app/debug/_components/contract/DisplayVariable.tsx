@@ -99,7 +99,7 @@ export const DisplayVariable = ({
     address: contractAddress,
     functionName: abiFunction.name,
     abi: [...abi],
-    blockIdentifier: "pending" as BlockNumber, // TODO : notify when failed - add error
+    blockIdentifier: "pre_confirmed" as BlockNumber, // TODO : notify when failed - add error
   });
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { showAnimation } = useAnimationConfig(result);
@@ -147,7 +147,7 @@ export const DisplayVariable = ({
         <div>
           <div
             className={`break-all block transition bg-transparent ${
-              showAnimation ? "bg-warning rounded-sm animate-pulse-fast" : ""
+              showAnimation ? "bg-warning rounded-xs animate-pulse-fast" : ""
             }`}
           >
             {decodeContractResponse({
