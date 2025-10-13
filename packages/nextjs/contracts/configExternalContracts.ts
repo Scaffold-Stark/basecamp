@@ -3,6 +3,12 @@
  * You should not edit it manually or your changes might be overwritten.
  */
 
+import {
+  VSTRK_ABI,
+  VSTRK_ADDRESS,
+  VSTRK_CLASS_HASH,
+} from "~~/utils/vesu/constants";
+
 const configExternalContracts = {
   devnet: {
     Eth: {
@@ -390,6 +396,18 @@ const configExternalContracts = {
           ],
         },
       ],
+    },
+    vStrk: {
+      address: VSTRK_ADDRESS,
+      classHash: VSTRK_CLASS_HASH,
+      abi: VSTRK_ABI,
+    },
+  },
+  mainnet: {
+    vStrk: {
+      address: VSTRK_ADDRESS,
+      classHash: VSTRK_CLASS_HASH,
+      abi: VSTRK_ABI,
     },
   },
 } as const;

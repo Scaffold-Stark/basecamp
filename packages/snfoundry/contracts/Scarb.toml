@@ -29,7 +29,7 @@ sort-module-level-items = true
 [[tool.snforge.fork]]
 name = "MAINNET_LATEST"
 url = "https://starknet-mainnet.public.blastapi.io/rpc/v0_9"
-block_id.number = "1028886"
+block_id.number = "1540452"
 block_id.tag = "latest"
 
 [tool]
