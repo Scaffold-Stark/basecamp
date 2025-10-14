@@ -5,11 +5,11 @@ import { useState } from "react";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-stark/useScaffoldReadContract";
 import { useScaffoldMultiWriteContract } from "~~/hooks/scaffold-stark/useScaffoldMultiWriteContract";
 import { useScaffoldEventHistory } from "~~/hooks/scaffold-stark/useScaffoldEventHistory";
+import { useDeployedContractInfo } from "~~/hooks/scaffold-stark/useDeployedContractInfo";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWriteContract";
 import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
 import { useAccount } from "@starknet-react/core";
 import useScaffoldStrkBalance from "~~/hooks/scaffold-stark/useScaffoldStrkBalance";
-import { VSTRK_ADDRESS } from "~~/utils/vesu/constants";
 
 const Home = () => {
   const [displayAmount, setDisplayAmount] = useState<string>("");
@@ -18,6 +18,9 @@ const Home = () => {
   const { targetNetwork } = useTargetNetwork();
 
   const { address: connectedAddress } = useAccount();
+
+  // vSTRK contract info
+  const { data: vStrk } = useDeployedContractInfo("vStrk");
 
   const toHex = (v: unknown) =>
     typeof v === "bigint" ? `0x${v.toString(16)}` : (v as string);
@@ -49,7 +52,7 @@ const Home = () => {
         {
           contractName: "Strk",
           functionName: "approve",
-          args: [VSTRK_ADDRESS, amountWei],
+          args: [vStrk?.address, amountWei],
         },
         {
           contractName: "vStrk",
@@ -65,12 +68,14 @@ const Home = () => {
     eventName: "Deposit",
     fromBlock: 1540452n, // NOTE : For now keep this block number as it is. When running local mainnet fork, use this block number as the starting block number. For example: `yarn chain --fork-network https://starknet-mainnet.public.blastapi.io/rpc/v0_9 --fork-block 1540452`
     watch: true,
+    enabled: !!vStrk,
   });
   const { data: withdrawEvents } = useScaffoldEventHistory({
     contractName: "vStrk",
     eventName: "Withdraw",
     fromBlock: 1540452n,
     watch: true,
+    enabled: !!vStrk,
   });
 
   return (
@@ -87,6 +92,41 @@ const Home = () => {
           </div>
         </h1>
         <ConnectedAddress />
+        <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg mb-8">
+          <h2 className="text-2xl font-bold mb-3 text-secondary">
+            Instructions
+          </h2>
+          <div className="text-lg">
+            <div className="flex items-center gap-3">
+              <span className="badge badge-primary badge-lg">1</span>
+              <p>
+                Run mainnet fork:{" "}
+                <code className="bg-base-200 px-2 py-1 rounded text-sm">
+                  yarn chain --fork-network
+                  https://starknet-mainnet.public.blastapi.io/rpc/v0_9
+                </code>
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="badge badge-primary badge-lg">2</span>
+              <p>
+                To deposit or withdraw a Vesu token, you will need to interact
+                with a "vToken", we will take vSTRK to interact.
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="badge badge-primary badge-lg">3</span>
+              <p>
+                Now let click to the "Configure Contracts" button on the bottom
+                left corner to download vStrk configures at address{" "}
+                <code className="bg-base-200 px-2 py-1 rounded text-sm">
+                  0x0147ae3337b168ac9abe80a7214f0cb9e874b25c3db530a8e04beb98a134e07a
+                </code>{" "}
+                and name vStrk
+              </p>
+            </div>
+          </div>
+        </div>
         <div className="mt-8 space-y-6">
           {/* Contract Status removed for Vesu demo */}
           <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg">
@@ -98,6 +138,7 @@ const Home = () => {
                 className="btn btn-primary btn-lg"
                 onClick={() => redeemAll()}
                 disabled={
+                  !vStrk ||
                   !connectedAddress ||
                   !vStrkBalance ||
                   (vStrkBalance as any) === 0n ||
@@ -107,13 +148,13 @@ const Home = () => {
                 {isRedeeming ? (
                   <span className="loading loading-spinner loading-sm"></span>
                 ) : (
-                  "Redeem All"
+                  "Withdraw All"
                 )}
               </button>
             </div>
             <div className="p-4 bg-base-200 rounded-xl">
               <div className="text-lg mb-4">
-                Redeem all your vSTRK shares back to STRK.
+                Withdraw all your vSTRK shares back to STRK.
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="p-4 bg-base-300 rounded-lg">
@@ -184,7 +225,12 @@ const Home = () => {
               <button
                 className="btn btn-primary btn-lg w-full text-lg"
                 onClick={() => depositStrk()}
-                disabled={!connectedAddress || amountWei === 0n || isDepositing}
+                disabled={
+                  !vStrk ||
+                  !connectedAddress ||
+                  amountWei === 0n ||
+                  isDepositing
+                }
               >
                 {isDepositing ? (
                   <span className="loading loading-spinner loading-sm"></span>
