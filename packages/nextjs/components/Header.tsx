@@ -30,6 +30,13 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/debug",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
+  {
+    label: "Vesu",
+    href: "/vesu",
+    icon: (
+      <Image src={"/vesu-symbol-icon.svg"} alt="Vesu" width={16} height={16} />
+    ),
+  },
 ];
 
 export const HeaderMenuLinks = () => {
