@@ -7,7 +7,7 @@ const deployedContracts = {
   devnet: {
     YourContract: {
       address:
-        "0x3760a55e55c5d737d14e527c4c09c5b828f5476fd6f9b7148482ec4185afa17",
+        "0x3d0a8a77f45d5e0f52fc3f4734985ce57795caaaf23181eaa35aed377f01184",
       abi: [
         {
           type: "impl",
@@ -62,6 +62,20 @@ const deployedContracts = {
         },
         {
           type: "enum",
+          name: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
+          variants: [
+            {
+              name: "Some",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "None",
+              type: "()",
+            },
+          ],
+        },
+        {
+          type: "enum",
           name: "core::bool",
           variants: [
             {
@@ -98,8 +112,12 @@ const deployedContracts = {
                   type: "core::byte_array::ByteArray",
                 },
                 {
-                  name: "amount_strk",
+                  name: "option_amount",
                   type: "core::option::Option::<core::integer::u256>",
+                },
+                {
+                  name: "option_token",
+                  type: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
                 },
               ],
               outputs: [],
@@ -119,6 +137,22 @@ const deployedContracts = {
               outputs: [
                 {
                   type: "core::bool",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "token_deposits",
+              inputs: [
+                {
+                  name: "token",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
                 },
               ],
               state_mutability: "view",
@@ -252,6 +286,11 @@ const deployedContracts = {
               type: "core::option::Option::<core::integer::u256>",
               kind: "data",
             },
+            {
+              name: "token",
+              type: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
+              kind: "data",
+            },
           ],
         },
         {
@@ -273,7 +312,7 @@ const deployedContracts = {
         },
       ],
       classHash:
-        "0x21e2aa81952de7b6851d5e76ea1f70283373407b22bfb4d32fafa4c5e2c8f1d",
+        "0x73b00366d0117bee7ae7620469abc7ceefb8b78ff9257b77b3531a9c4411688",
     },
   },
   sepolia: {
@@ -334,6 +373,20 @@ const deployedContracts = {
         },
         {
           type: "enum",
+          name: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
+          variants: [
+            {
+              name: "Some",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "None",
+              type: "()",
+            },
+          ],
+        },
+        {
+          type: "enum",
           name: "core::bool",
           variants: [
             {
@@ -370,8 +423,12 @@ const deployedContracts = {
                   type: "core::byte_array::ByteArray",
                 },
                 {
-                  name: "amount_strk",
+                  name: "option_amount",
                   type: "core::option::Option::<core::integer::u256>",
+                },
+                {
+                  name: "option_token",
+                  type: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
                 },
               ],
               outputs: [],
@@ -391,6 +448,22 @@ const deployedContracts = {
               outputs: [
                 {
                   type: "core::bool",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "token_deposits",
+              inputs: [
+                {
+                  name: "token",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
                 },
               ],
               state_mutability: "view",
@@ -522,6 +595,11 @@ const deployedContracts = {
             {
               name: "value",
               type: "core::option::Option::<core::integer::u256>",
+              kind: "data",
+            },
+            {
+              name: "token",
+              type: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
               kind: "data",
             },
           ],
