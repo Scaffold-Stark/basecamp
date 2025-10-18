@@ -92,41 +92,6 @@ const Home = () => {
           </div>
         </h1>
         <ConnectedAddress />
-        <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg mb-8">
-          <h2 className="text-2xl font-bold mb-3 text-secondary">
-            Instructions
-          </h2>
-          <div className="text-lg">
-            <div className="flex items-center gap-3">
-              <span className="badge badge-primary badge-lg">1</span>
-              <p>
-                Run mainnet fork:{" "}
-                <code className="bg-base-200 px-2 py-1 rounded text-sm">
-                  yarn chain --fork-network
-                  https://starknet-mainnet.public.blastapi.io/rpc/v0_9
-                </code>
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="badge badge-primary badge-lg">2</span>
-              <p>
-                To deposit or withdraw a Vesu token, you will need to interact
-                with a "vToken", we will take vSTRK to interact.
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="badge badge-primary badge-lg">3</span>
-              <p>
-                Now let click to the "Configure Contracts" button on the bottom
-                left corner to download vStrk configures at address{" "}
-                <code className="bg-base-200 px-2 py-1 rounded text-sm">
-                  0x0147ae3337b168ac9abe80a7214f0cb9e874b25c3db530a8e04beb98a134e07a
-                </code>{" "}
-                and name vStrk
-              </p>
-            </div>
-          </div>
-        </div>
         <div className="mt-8 space-y-6">
           {/* Contract Status removed for Vesu demo */}
           <div className="bg-base-100 p-8 rounded-3xl border border-gradient shadow-lg">
