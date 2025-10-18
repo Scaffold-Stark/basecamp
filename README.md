@@ -47,14 +47,13 @@ The tutorial is divided into the following steps:
 - At this point the user should be able to send STRK and ETH to the contract through our UI and see the events logged at the bottom.
 - [View changes from step-1 to step-2](https://github.com/Scaffold-Stark/basecamp/compare/step-1...step-2)
 
-**Step 3: Full zklend Integration** ([branch: step-3](https://github.com/Scaffold-Stark/basecamp/tree/step-3))
+**Step 3: Full Vesu Integration** ([branch: step-3](https://github.com/Scaffold-Stark/basecamp/tree/step-3))
 
-- Updates [`YourContract.cairo`](https://github.com/Scaffold-Stark/basecamp/blob/step-3/packages/snfoundry/contracts/src/YourContract.cairo) with [zklend](https://app.zklend.com/markets) integration
-- All the STRK and ETH deposits are now sent to zklend for yield farming
-- Introduces development on mainnet fork. Can follow scaffold-stark [docs](https://scaffoldstark.com/docs/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
+- Introduces development on mainnet fork. Run mainnet fork: `yarn chain --fork-network https://starknet-mainnet.public.blastapi.io/rpc/v0_9`. Can follow scaffold-stark [docs](https://scaffoldstark.com/docs/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
+- To deposit or withdraw a Vesu token, you will need to interact with a "vToken", we will take vSTRK to interact
+- Use `Configure Contracts` tool to to download Vesu vStrk configures at address `0x0147ae3337b168ac9abe80a7214f0cb9e874b25c3db530a8e04beb98a134e07a` and name vStrk
 - Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
 - Includes mainnet deployment steps
-- Users can send STRK or ETH along with a greeting, these deposits will generate yield from first second onwards, owner can withdraw the yield anytime. User can connect with `burner wallet` to interact with the contract on Starknet mainnet fork.
 - [View changes from step-2 to step-3](https://github.com/Scaffold-Stark/basecamp/compare/step-2...step-3)
 
 Each step builds upon the previous one, introducing new concepts and features while maintaining a clean, production-ready codebase.
