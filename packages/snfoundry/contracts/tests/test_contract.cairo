@@ -6,8 +6,8 @@ use openzeppelin_utils::serde::SerializedAppend;
 use snforge_std::{CheatSpan, cheat_caller_address};
 use starknet::ContractAddress;
 
-// Real wallet address deployed on Mainnet
-const OWNER: ContractAddress = 0x00c853dC4D9141DC6192FeCc999cC7333348Ab4fDCEf97B760ECb63A7FDE1c0e
+// Real wallet address deployed on Sepolia
+const OWNER: ContractAddress = 0x02dA5254690b46B9C4059C25366D1778839BE63C142d899F0306fd5c312A5918
     .try_into()
     .unwrap();
 
@@ -31,14 +31,12 @@ fn test_set_greetings() {
 
     let new_greeting: ByteArray = "Learn Scaffold-Stark 2! :)";
     dispatcher
-        .set_greeting(
-            new_greeting.clone(), Option::None, Option::None,
-        ); // we dont transfer any fri/wei
+        .set_greeting(new_greeting.clone(), Option::None, Option::None); // we dont transfer any eth
     assert(dispatcher.greeting() == new_greeting, 'Should allow set new message');
 }
 
 #[test]
-#[fork("MAINNET_LATEST")]
+#[fork("SEPOLIA_LATEST")]
 fn test_transfer_eth() {
     let user: ContractAddress = OWNER.try_into().unwrap();
     let your_contract_address = deploy_contract("YourContract");
@@ -66,7 +64,7 @@ fn test_transfer_eth() {
 }
 
 #[test]
-#[fork("MAINNET_LATEST")]
+#[fork("SEPOLIA_LATEST")]
 fn test_transfer_strk() {
     let user: ContractAddress = OWNER.try_into().unwrap();
     let your_contract_address = deploy_contract("YourContract");
@@ -88,6 +86,6 @@ fn test_transfer_strk() {
             new_greeting.clone(),
             Option::Some(amount_to_transfer),
             Option::Some(STRK_TOKEN_CONTRACT_ADDRESS),
-        ); // we transfer 500 fri
+        ); // we transfer 500 fri/wei
     assert(your_contract_dispatcher.greeting() == new_greeting, 'Should allow set new message');
 }
