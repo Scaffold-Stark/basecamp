@@ -27,8 +27,9 @@ allow-prebuilt-plugins = [
 sort-module-level-items = true
 
 [[tool.snforge.fork]]
-name = "SEPOLIA_LATEST"
-url = "https://starknet-sepolia.public.blastapi.io/rpc/v0_9"
+name = "MAINNET_LATEST"
+url = "https://starknet-mainnet.public.blastapi.io/rpc/v0_9"
+block_id.number = "1540452"
 block_id.tag = "latest"
 
 [tool]
