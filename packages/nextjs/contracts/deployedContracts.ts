@@ -315,6 +315,92 @@ const deployedContracts = {
         "0x73b00366d0117bee7ae7620469abc7ceefb8b78ff9257b77b3531a9c4411688",
     },
   },
+  mainnet: {
+    Multicall: {
+      address:
+        "0x7ca5ccfeb2e4d6e13e9382d70042712f1f736c003f3a40243d9a397a7317251",
+      abi: [
+        {
+          type: "impl",
+          name: "MulticallImpl",
+          interface_name: "contracts::multicall::IMulticall",
+        },
+        {
+          type: "struct",
+          name: "core::array::Span::<core::starknet::contract_address::ContractAddress>",
+          members: [
+            {
+              name: "snapshot",
+              type: "@core::array::Array::<core::starknet::contract_address::ContractAddress>",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "core::array::Span::<core::felt252>",
+          members: [
+            {
+              name: "snapshot",
+              type: "@core::array::Array::<core::felt252>",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "core::array::Span::<core::array::Span::<core::felt252>>",
+          members: [
+            {
+              name: "snapshot",
+              type: "@core::array::Array::<core::array::Span::<core::felt252>>",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::multicall::IMulticall",
+          items: [
+            {
+              type: "function",
+              name: "call_contracts",
+              inputs: [
+                {
+                  name: "contracts",
+                  type: "core::array::Span::<core::starknet::contract_address::ContractAddress>",
+                },
+                {
+                  name: "entry_point_selectors",
+                  type: "core::array::Span::<core::felt252>",
+                },
+                {
+                  name: "calldata",
+                  type: "core::array::Span::<core::array::Span::<core::felt252>>",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::array::Array::<core::array::Span::<core::felt252>>",
+                },
+              ],
+              state_mutability: "view",
+            },
+          ],
+        },
+        {
+          type: "constructor",
+          name: "constructor",
+          inputs: [],
+        },
+        {
+          type: "event",
+          name: "contracts::multicall::Multicall::Event",
+          kind: "enum",
+          variants: [],
+        },
+      ],
+      classHash:
+        "0x67be8d0979b1012f4222674cb81e3a0413e45e16897b8d7c650ae84ba4a3f23",
+    },
+  },
   sepolia: {
     YourContract: {
       address:
