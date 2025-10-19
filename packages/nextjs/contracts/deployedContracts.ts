@@ -7,12 +7,12 @@ const deployedContracts = {
   devnet: {
     YourContract: {
       address:
-        "0x3d0a8a77f45d5e0f52fc3f4734985ce57795caaaf23181eaa35aed377f01184",
+        "0x1a2542704c7588b9c5eb86c9a1b2391b93b77b67694268b74db51097031839d",
       abi: [
         {
           type: "impl",
           name: "YourContractImpl",
-          interface_name: "contracts::your_contract::IYourContract",
+          interface_name: "contracts::YourContract::IYourContract",
         },
         {
           type: "struct",
@@ -62,20 +62,6 @@ const deployedContracts = {
         },
         {
           type: "enum",
-          name: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
-          variants: [
-            {
-              name: "Some",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "None",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "enum",
           name: "core::bool",
           variants: [
             {
@@ -90,7 +76,7 @@ const deployedContracts = {
         },
         {
           type: "interface",
-          name: "contracts::your_contract::IYourContract",
+          name: "contracts::YourContract::IYourContract",
           items: [
             {
               type: "function",
@@ -112,12 +98,8 @@ const deployedContracts = {
                   type: "core::byte_array::ByteArray",
                 },
                 {
-                  name: "option_amount",
+                  name: "amount_strk",
                   type: "core::option::Option::<core::integer::u256>",
-                },
-                {
-                  name: "option_token",
-                  type: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
                 },
               ],
               outputs: [],
@@ -137,22 +119,6 @@ const deployedContracts = {
               outputs: [
                 {
                   type: "core::bool",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "token_deposits",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
                 },
               ],
               state_mutability: "view",
@@ -263,7 +229,7 @@ const deployedContracts = {
         },
         {
           type: "event",
-          name: "contracts::your_contract::YourContract::GreetingChanged",
+          name: "contracts::YourContract::YourContract::GreetingChanged",
           kind: "struct",
           members: [
             {
@@ -286,16 +252,11 @@ const deployedContracts = {
               type: "core::option::Option::<core::integer::u256>",
               kind: "data",
             },
-            {
-              name: "token",
-              type: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
-              kind: "data",
-            },
           ],
         },
         {
           type: "event",
-          name: "contracts::your_contract::YourContract::Event",
+          name: "contracts::YourContract::YourContract::Event",
           kind: "enum",
           variants: [
             {
@@ -305,14 +266,14 @@ const deployedContracts = {
             },
             {
               name: "GreetingChanged",
-              type: "contracts::your_contract::YourContract::GreetingChanged",
+              type: "contracts::YourContract::YourContract::GreetingChanged",
               kind: "nested",
             },
           ],
         },
       ],
       classHash:
-        "0x73b00366d0117bee7ae7620469abc7ceefb8b78ff9257b77b3531a9c4411688",
+        "0x5e4c766477764df946dcce9b0d2c865468882ac572c0d3767aeb98d23cbe74b",
     },
   },
   mainnet: {
@@ -404,12 +365,12 @@ const deployedContracts = {
   sepolia: {
     YourContract: {
       address:
-        "0x6a5b250d1eeda1cdc9e98078d3dadbe1d2bacd7a4a44f55e9e250bfe18c4288",
+        "0x62eb9272c7523ee445d223bae15b5b44a79c3fdbb5216d3412534a47bcc5255",
       abi: [
         {
           type: "impl",
           name: "YourContractImpl",
-          interface_name: "contracts::your_contract::IYourContract",
+          interface_name: "contracts::YourContract::IYourContract",
         },
         {
           type: "struct",
@@ -459,20 +420,6 @@ const deployedContracts = {
         },
         {
           type: "enum",
-          name: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
-          variants: [
-            {
-              name: "Some",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "None",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "enum",
           name: "core::bool",
           variants: [
             {
@@ -487,7 +434,7 @@ const deployedContracts = {
         },
         {
           type: "interface",
-          name: "contracts::your_contract::IYourContract",
+          name: "contracts::YourContract::IYourContract",
           items: [
             {
               type: "function",
@@ -509,12 +456,8 @@ const deployedContracts = {
                   type: "core::byte_array::ByteArray",
                 },
                 {
-                  name: "option_amount",
+                  name: "amount_strk",
                   type: "core::option::Option::<core::integer::u256>",
-                },
-                {
-                  name: "option_token",
-                  type: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
                 },
               ],
               outputs: [],
@@ -534,22 +477,6 @@ const deployedContracts = {
               outputs: [
                 {
                   type: "core::bool",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "token_deposits",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
                 },
               ],
               state_mutability: "view",
@@ -660,7 +587,7 @@ const deployedContracts = {
         },
         {
           type: "event",
-          name: "contracts::your_contract::YourContract::GreetingChanged",
+          name: "contracts::YourContract::YourContract::GreetingChanged",
           kind: "struct",
           members: [
             {
@@ -683,16 +610,11 @@ const deployedContracts = {
               type: "core::option::Option::<core::integer::u256>",
               kind: "data",
             },
-            {
-              name: "token",
-              type: "core::option::Option::<core::starknet::contract_address::ContractAddress>",
-              kind: "data",
-            },
           ],
         },
         {
           type: "event",
-          name: "contracts::your_contract::YourContract::Event",
+          name: "contracts::YourContract::YourContract::Event",
           kind: "enum",
           variants: [
             {
@@ -702,14 +624,14 @@ const deployedContracts = {
             },
             {
               name: "GreetingChanged",
-              type: "contracts::your_contract::YourContract::GreetingChanged",
+              type: "contracts::YourContract::YourContract::GreetingChanged",
               kind: "nested",
             },
           ],
         },
       ],
       classHash:
-        "0x73b00366d0117bee7ae7620469abc7ceefb8b78ff9257b77b3531a9c4411688",
+        "0x5e4c766477764df946dcce9b0d2c865468882ac572c0d3767aeb98d23cbe74b",
     },
   },
 } as const;
