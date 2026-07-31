@@ -49,7 +49,7 @@ The tutorial is divided into the following steps:
 
 **Step 3: Full Vesu Integration** ([branch: step-3](https://github.com/Scaffold-Stark/basecamp/tree/step-3))
 
-- Introduces development on mainnet fork. Run mainnet fork: `yarn chain --fork-network https://starknet-mainnet.public.blastapi.io/rpc/v0_9`. Can follow scaffold-stark [docs](https://scaffoldstark.com/docs/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
+- Introduces development on mainnet fork. Run mainnet fork: `yarn chain --fork-network https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_10/_hKu4IgnPgrF8O82GLuYU`. Can follow scaffold-stark [docs](https://scaffoldstark.com/docs/recipes/DevelopingOnFork) to run and interact with a local fork of Starknet mainnet.
 - To deposit or withdraw a Vesu token, you will need to interact with a "vToken", we will take vSTRK to interact
 - Use `Configure Contracts` tool to to download Vesu vStrk configures at address `0x0147ae3337b168ac9abe80a7214f0cb9e874b25c3db530a8e04beb98a134e07a` and name vStrk
 - Minor `page.tsx` and `scaffold.config.ts` updates to support mainnetFork testing
@@ -81,7 +81,7 @@ Each step builds upon the previous one, introducing new concepts and features wh
 
    ```bash
    PRIVATE_KEY_SEPOLIA=0xSOMETHING
-   RPC_URL_SEPOLIA=https://starknet-sepolia.public.blastapi.io/rpc/v0_7
+   RPC_URL_SEPOLIA=https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_10/_hKu4IgnPgrF8O82GLuYU
    ACCOUNT_ADDRESS_SEPOLIA=0xSOMETHING
    ```
 
