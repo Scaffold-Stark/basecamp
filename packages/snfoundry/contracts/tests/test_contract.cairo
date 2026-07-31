@@ -107,7 +107,10 @@ fn test_set_greeting_no_allowance() {
     let new_greeting: ByteArray = "Learn Scaffold-Stark 2! :)";
 
     cheat_caller_address(your_contract_address, user, CheatSpan::TargetCalls(1));
-    your_contract_dispatcher.set_greeting(new_greeting.clone(), Option::Some(500));
+    your_contract_dispatcher
+        .set_greeting(
+            new_greeting.clone(), Option::Some(500), Option::Some(ETH_TOKEN_CONTRACT_ADDRESS),
+        );
 }
 
 #[test]
