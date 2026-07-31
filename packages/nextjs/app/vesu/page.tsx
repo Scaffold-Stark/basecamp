@@ -66,7 +66,7 @@ const Home = () => {
   const { data: depositEvents } = useScaffoldEventHistory({
     contractName: "vStrk",
     eventName: "Deposit",
-    fromBlock: 1540452n, // NOTE : For now keep this block number as it is. When running local mainnet fork, use this block number as the starting block number. For example: `yarn chain --fork-network https://starknet-mainnet.public.blastapi.io/rpc/v0_9 --fork-block 1540452`
+    fromBlock: 1540452n, // NOTE : For now keep this block number as it is. When running local mainnet fork, use this block number as the starting block number. For example: `yarn chain --fork-network https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_10/_hKu4IgnPgrF8O82GLuYU --fork-block 1540452`
     watch: true,
     enabled: !!vStrk,
   });
